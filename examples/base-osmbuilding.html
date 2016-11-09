@@ -35,11 +35,12 @@
         var mymap = new L.GeoMap('mapid',{basetileLayer:[L.GeoNJLayer.vector,L.GeoNJLayer.vectoranno]});
         var osmb = new OSMBuildings(mymap);
          osmb.set(data3);
+         osmb.add(data);
          osmb.click(function(e) {
- console.log(e.feature);
-});
-osmb.move(function(e) {
- console.log(e.feature);
-});
+             console.log(e.feature);
+            });
+           /* osmb.mousemove(function(e) {
+             console.log(e.feature);
+            });*/
     </script>
 </body>
