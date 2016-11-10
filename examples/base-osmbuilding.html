@@ -41,8 +41,9 @@
              osmb.setItemStyle(e.feature,{wallColor:'#f08000'});
             // osmb.highlight(e.feature,'#f08000');
             });
-           /* osmb.mousemove(function(e) {
-             console.log(e.feature);
-            });*/
+            osmb.mousemove(function(e) {
+                console.log(e.feature);
+              osmb.highlight(e.feature,{wallColor:'#f08000'});
+            });
     </script>
 </body>
