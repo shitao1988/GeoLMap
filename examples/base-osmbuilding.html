@@ -38,6 +38,8 @@
          osmb.add(data);
          osmb.click(function(e) {
              console.log(e.feature);
+             osmb.setItemStyle(e.feature,{wallColor:'#f08000'});
+            // osmb.highlight(e.feature,'#f08000');
             });
            /* osmb.mousemove(function(e) {
              console.log(e.feature);
