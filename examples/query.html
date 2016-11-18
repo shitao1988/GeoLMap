@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Base - Leaflet
+        </title>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+        <link href="../lib/leaflet/leaflet.css" rel="stylesheet"/>
+        <script src="../lib/leaflet/leaflet-src.js">
+        </script>
+        <script src="../src/GeoMap.js">
+        </script>
+        <script src="../src/layer/WMTSLayer.js">
+        </script>
+        <script src="../src/Query/WFSQuery.js">
+        </script>
+        <style type="text/css">
+            html,body{
+        width:100%;
+        height: 100%;
+          margin: 0;
+    }
+    #mapid{
+        width:100%;
+        height: 100%;
+    }
+        </style>
+    </head>
+</html>
+<body>
+    <div id="mapid">
+    </div>
+    <script>
+        /*            var option={
+                basetileLayer:[],
+                center: [51.505, -0.09],
+                zoom: 13
+            }*/
+        var mymap = new L.GeoMap('mapid',{zoom:5});
+         var boundaries = new L.WFSQuery({
+                url: 'http://demo.opengeo.org/geoserver/ows',
+                typeNS: 'topp',
+                typeName: 'tasmania_state_boundaries',
+                crs: L.CRS.EPSG4326,
+                geometryField: 'the_geom',
+                style: {
+                    color: 'blue',
+                    weight: 2
+                }
+            }).on('load', function(e) {
+            var data= e;
+            });
+         var data=boundaries.Query();
+        /*  var mymap = new L.GeoMap('mapid',{zoom:5});
+         var boundaries = new L.WFSQuery({
+                url: 'http://localhost/ProxyHandler.ashx?URL=http://192.168.1.163:6080/arcgis/services/lishi/MapServer/WFSServer',
+                typeNS: 'topp',
+                typeName: 'lishi:历史',
+                crs: L.CRS.EPSG4326,
+                geometryField: 'Shape'
+            }).on('load', function(e) {
+            var data= e;
+            });
+         var data=boundaries.Query();*/
+    </script>
+</body>
