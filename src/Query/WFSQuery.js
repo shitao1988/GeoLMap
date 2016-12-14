@@ -39,6 +39,12 @@ L.WFSQuery = L.Class.extend({
             });
         });
     },
+    pointQuery: function(point,distance,unit) {
+        distance = distance || 0;
+        unit = unit || "degree";
+        
+      
+    },
     namespaceName: function(name) {
         return this.options.typeNS + ':' + name;
     },
