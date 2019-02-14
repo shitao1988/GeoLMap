@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>示例-基本底图</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        #mapid {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="mapid">
+        <div id="label" style="position:relative; top: 20px; left: 50px;width:200px;z-index:99999">0,0</div>
+    </div>
+    <script>
+        function init() {
+            this.baseLayer_vec = new L.GeoWMTSLayer("http://ditu.zj.cn/services/wmts/zjemap", {
+                id: "baseLayer_vec",
+                layer: "zjemap",
+                format: "image/png",
+                tilematrixset: "esritilematirx",
+                maxZoom: 20,
+                minZoom: 8
+            });
+
+            this.vecGroup = L.layerGroup([this.baseLayer_vec]);
+
+            var res = [];
+            for (var i = 0; i < 20; i++) {
+                res[i] = 1.40625 / Math.pow(2, i);
+            }
+            var crs = new L.Proj.CRS(
+                'EPSG:4326',
+                "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs", {
+                    origin: [-180.0, 90],
+                    resolutions: res
+                });
+
+            this.map = new L.GeoMap('mapid', {
+                crs: crs,
+                zoom: 1,
+                continuousWorld: true,
+                worldCopyJump: false,
+                useDefault: false
+            });
+            this.vecGroup.addTo(map);
+            this.map.setView([28.8, 118.9], 11);
+            var _this = this;
+            this.map.on("moveend", function () {
+                document.getElementById("label").innerHTML = (_this.map.getZoom() + "," + _this.map.getBounds().toBBoxString());
+            }, this);
+        }
+        window.onload = init;
+    </script>
+</body>
+</html>

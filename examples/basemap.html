@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>示例-基本底图</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../dist/GeoLMap.min.js"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        
+        #mapid {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mapid">
+    </div>
+    <script>
+        function init() {
+            this.baseLayer_img = new L.GeoWMTSLayer("http://61.177.139.228:9000/gateway/WMTSServer/wuxi_newvector", {
+                id: "baseLayer_vec",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 20,
+                minZoom: 18
+            });
+            this.baseLayer_imgLabel = new L.GeoWMTSLayer("http://61.177.139.228:9000/gateway/WMTSServer/wuxi_newvectoranno", {
+                id: "baseLayer_vecLabel",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 20,
+                minZoom: 18
+            });
+            
+            this.baseLayer_vec = new L.GeoWMTSLayer("http://61.177.139.228:9000/gateway/WMTSServer/wuxi_image", {
+                id: "baseLayer_vec",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 20,
+                minZoom: 18
+            });
+            this.baseLayer_vecLabel = new L.GeoWMTSLayer("http://61.177.139.228:9000/gateway/WMTSServer/wuxi_imageanno", {
+                id: "baseLayer_vecLabel",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 20,
+                minZoom: 18
+            });
+
+
+            this.vecGroup = L.layerGroup([this.baseLayer_img, this.baseLayer_imgLabel]);
+
+            var res = [];
+            for (var i = 0; i < 20; i++) {
+                res[i] = 1.40625 / Math.pow(2, i);
+            }
+            var crs = new L.Proj.CRS(
+                'EPSG:4326',
+                "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs", {
+                    origin: [-180.0, 90],
+                    resolutions: res
+                });
+
+            this.map = new L.GeoMap('mapid', {
+                crs: crs,
+                zoom: 1,
+                continuousWorld: true,
+                worldCopyJump: false
+            });
+            this.vecGroup.addTo(map);
+            this.map.setView([31.578140, 120.309906], 11);
+        }
+        window.onload = init;
+    </script>
+</body>
+
+</html>

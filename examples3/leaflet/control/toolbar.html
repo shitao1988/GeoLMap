@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>示例-天地图底图加载（默认方式）</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <link href="../res/example.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="mapid">
+    </div>
+    <script>
+        var mymap = new L.GeoMap('mapid', {
+            zoom: 5
+        });
+        var zoonout = L.ToolbarClickAction.extend({
+            options: {
+                toolbarIcon: {
+                    html: '<i class="fa-search-minus" title="缩小"></i>',
+                    tooltip: '缩小'
+                }
+            },
+            addHooks: function() {
+                mymap.zoomOut()
+            }
+        });
+        var wholemap = L.ToolbarAction.extend({
+            options: {
+                toolbarIcon: {
+                    html: '<i class="fa-map-o" title="全图"></i>',
+                    tooltip: '全图'
+                }
+            },
+            addHooks: function() {
+                mymap.setView([31.578140, 120.309906], 11);
+            }
+        });
+
+        var measureline = L.ComputeDist.extend({
+            options: {
+                toolbarIcon: {
+                    html: '<div class="toolbar_measuerline" title="测距"></div>',
+                    tooltip: '测距'
+                }
+            },
+            addHooks: function() {
+                this._onMouseClick();
+            },
+        });
+        var measurearea = L.ComputeArea.extend({
+            options: {
+                toolbarIcon: {
+                    html: '<div class="toolbar_measuerarea" title="测面"></div>',
+                    tooltip: '测面'
+                }
+            }
+        });
+
+
+        var tool = L.ToolbarAction.extend({
+            options: {
+                toolbarIcon: {
+                    html: '<div class="fa-map-o" title="工具"></div>',
+                    tooltip: '工具'
+                },
+                subToolbar: new L.CToolbar({
+                    actions: [measureline, measurearea],
+                    className: 'sub-toolbar'
+                })
+            },
+            addHooks: function() {}
+        });
+
+
+        new L.CToolbar.Control({
+            actions: [zoonout, wholemap, tool]
+        }).addTo(mymap);
+    </script>
+</body>
+
+</html>

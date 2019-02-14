@@ -1,0 +1,7 @@
+﻿1. terraformer  内置到leaflet
+   使用： L.Terraformer
+   示例： geolmap\examples\terraformer
+
+2. toolbar
+   leaflet.toolbar-src 中的L.Toolbar会与Leaflet.draw冲突   重命名为L.CToolbar
+   示例：geolmap\examples\control\toolbar.html

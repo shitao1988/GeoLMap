@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>缓存分析</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/jquery-1.11.1.min.js"></script>
+    <script src="../../dist/GeoLMap.js"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script>
+        var map = new L.GeoMap('map', {
+            zoom: 1,
+            maxZoom: 21,
+            minZoom: 0,
+            continuousWorld: true,
+            worldCopyJump: false,
+            useDefault: false
+        }).setView([31.5771, 120.289], 15);
+
+        var geojson = {
+            "type": "LineString",
+            "coordinates": [
+                [
+                    120.28917789459227,
+                    31.577109553093052
+                ],
+                [
+                    120.29552936553955,
+                    31.577511724716405
+                ],
+                [
+                    120.30381202697755,
+                    31.580290317614256
+                ],
+                [
+                    120.30479907989502,
+                    31.57879135015594
+                ]
+            ]
+        }
+
+        L.geoJSON(geojson).addTo(map);
+        var arcgisjson = L.Terraformer.ArcGIS.convert(geojson);
+
+
+        var geometrys = {
+            "geometryType": "esriGeometryPolyline",
+            "geometries": [arcgisjson]
+        };
+
+        var params = {
+            geometries: JSON.stringify(geometrys),
+            inSR: '4326',
+            outSR: '4326',
+            bufferSR: '4326',
+            distances: 0.001,
+            geodesic: false,
+            f: 'pjson'
+        }
+        $.ajax({
+            type: "get",
+            url: 'http://192.168.1.166:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer/buffer',
+            data: params,
+            dataType: "jsonp",
+            success: function(json) {
+                var geojson = L.Terraformer.ArcGIS.parse(json.geometries[0]);
+                L.geoJSON(geojson).addTo(map);
+            },
+            error: function(err) {
+
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+﻿<html>
+<head>
+    <meta charset=utf-8 />
+    <title>示例-ImageMapLayer MosaicRule</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <script>
+        var mosaicRule = {
+            mosaicMethod: 'esriMosaicLockRaster',
+            lockRasterIds: [8]
+        };
+
+        var map = L.map('map').setView([30, 0], 2);
+
+        L.esri.imageMapLayer({
+            url: 'https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/World/Temperature/ImageServer',
+            mosaicRule: mosaicRule,
+            useCors: false
+        }).addTo(map);
+
+        L.esri.basemapLayer('Gray').addTo(map);
+    </script>
+
+</body>
+</html>

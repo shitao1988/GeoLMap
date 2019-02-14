@@ -1,0 +1,27 @@
+﻿<jscompress public="http://www.jscompress.cn/" command="import-combineset">
+<combinefile path="GeoLMap-S.js">
+    <auto value="1" />
+    <sourcefile path="..\src\leaflet\proj4-src@2.4.3.js" />
+    <sourcefile path="..\src\leaflet\leaflet-src@1.0.3.js" />
+    <sourcefile path="..\src\leaflet\proj4leaflet@1.0.1.js" />
+    <sourcefile path="..\src\leaflet\esri-leaflet-src@2.0.8.js" />
+    <sourcefile path="..\src\leaflet\terraformer-1.0.8.js" />
+    <sourcefile path="..\src\leaflet\terraformer-arcgis-parser.js" />
+    <sourcefile path="..\src\leaflet\terraformer-wkt-parser.js" />
+    <sourcefile path="..\src\Control\L.Control.Zoomslider.js" />
+    <sourcefile path="..\src\Control\leaflet.contextmenu.js" />
+    <sourcefile path="..\src\Control\leaflet.markercluster-src.js" />
+    <sourcefile path="..\src\Control\leaflet.minimaplayerswitcher-src.js" />
+    <sourcefile path="..\src\Control\leaflet.toolbar-src.js" />
+    <sourcefile path="..\src\Control\Leaflet.draw\leaflet.draw-src@0.4.9.js" />
+    <sourcefile path="..\src\Control\leaflet.groupedlayercontrol.js" />
+    <sourcefile path="..\src\Control\Leaflet.Control.Custom.js" />
+    <sourcefile path="..\src\layer\WMTSLayer.js" />
+    <sourcefile path="..\src\layer\leaflet.heat@0.2.0.js" />
+    <sourcefile path="..\src\layer\leaflet.migrationLayer-src.js" />
+    <sourcefile path="..\src\Query\Ajax.js" />
+    <sourcefile path="..\src\Query\WFSQuery.js" />
+    <sourcefile path="..\src\local.zh-cn.js" />
+    <sourcefile path="..\src\Geomap.js" />
+</combinefile>
+</jscompress>

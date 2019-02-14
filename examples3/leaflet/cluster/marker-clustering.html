@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>集聚示例</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <link href="../res/example.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="mapid"></div>
+    <div class="leaflet-bar custom-button">
+        <input id="populate" type="button" value="添加 1 marker" onclick="populateHandler()">
+        <input id="remove" type="button" value="删除 1 marker" onclick="removeHandler()">
+    </div>
+    <script type="text/javascript">
+        var map = new L.GeoMap('mapid', {
+            zoom: 13
+        });
+        map.setView([31.578140, 120.309906], 11);
+
+        var markers = new L.MarkerClusterGroup();
+        var markersList = [];
+
+        function populate() {
+            for (var i = 0; i < 100; i++) {
+                var m = new L.Marker(getRandomLatLng(map));
+                markersList.push(m);
+                markers.addLayer(m);
+            }
+            return false;
+        }
+
+        function populateRandomVector() {
+            for (var i = 0, latlngs = [], len = 20; i < len; i++) {
+                latlngs.push(getRandomLatLng(map));
+            }
+            var path = new L.Polyline(latlngs);
+            map.addLayer(path);
+        }
+
+        function getRandomLatLng(map) {
+            var bounds = map.getBounds(),
+                southWest = bounds.getSouthWest(),
+                northEast = bounds.getNorthEast(),
+                lngSpan = northEast.lng - southWest.lng,
+                latSpan = northEast.lat - southWest.lat;
+
+            return new L.LatLng(
+                southWest.lat + latSpan * Math.random(),
+                southWest.lng + lngSpan * Math.random());
+        }
+
+        markers.on('clusterclick', function (a) {
+            alert('cluster ' + a.layer.getAllChildMarkers().length);
+        });
+        markers.on('click', function (a) {
+            alert('marker ' + a.layer);
+        });
+
+        populate();
+        map.addLayer(markers);
+
+        populateHandler = function () {
+            var bounds = map.getBounds(),
+                southWest = bounds.getSouthWest(),
+                northEast = bounds.getNorthEast(),
+                lngSpan = northEast.lng - southWest.lng,
+                latSpan = northEast.lat - southWest.lat;
+            var m = new L.Marker(new L.LatLng(
+                southWest.lat + latSpan * 0.5,
+                southWest.lng + lngSpan * 0.5));
+            markersList.push(m);
+            markers.addLayer(m);
+        };
+        removeHandler = function () {
+            markers.removeLayer(markersList.pop());
+        };
+    </script>
+</body>
+</html>

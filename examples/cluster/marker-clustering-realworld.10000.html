@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>集聚示例</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../dist/jquery-1.11.1.min.js"></script>
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <link href="../res/example.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="mapid"></div>
+    <script type="text/javascript">
+        var map = new L.GeoMap('mapid', {
+            zoom: 2
+        });
+        map.setView([31.578140, 120.309906], 11);
+
+        var markersGroup = L.markerClusterGroup({
+            chunkedLoading: true
+        });
+
+        (function () {
+            var _this = this;
+            url = "../../data/weibo.js";
+
+            var ajax = new L.Ajax();
+            ajax.get(url, {}, true, this, success, function () {
+                alert("数据请求失败");
+            });
+            function success(data) {
+                if (data.code == 0) {
+                    alert("服务请求失败");
+                    return;
+                }
+                else {
+                    var heatpoints = [];
+                    for (var i = 0; i < data.result.length; i++) {
+                        var marker = L.marker(L.latLng(data.result[i].LAT, data.result[i].LON), {
+                            title: i
+                        });
+                        marker.bindPopup(i);
+                        markersGroup.addLayer(marker);
+                    }
+                   
+                    map.addLayer(markersGroup);
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

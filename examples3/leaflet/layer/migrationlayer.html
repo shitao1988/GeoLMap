@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>示例-迁徙图</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="../../dist/jquery-1.11.1.min.js"></script>
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <link href="../res/example.css" rel="stylesheet" />
+    <style>
+        .leaflet-tile-container img {
+            -webkit-filter: grayscale(100%) invert(100%);
+            -moz-filter: grayscale(100%) invert(100%);
+            -ms-filter: grayscale(100%) invert(100%);
+            -o-filter: grayscale(100%) invert(100%);
+            filter: url(css/grayscale.svg) gray grayscale(100%) invert(100%);
+            opacity: 0.5 !important;
+        }
+
+        #mapid {
+            background-color: rgb(70, 99, 153) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="leaflet-bar custom-button">
+        <input id="changedata" type="button" value="切换数据" onclick="changedataHandler()">
+        <input id="show" type="button" value="显示" onclick="showHandler()">
+        <input id="hide" type="button" value="隐藏" onclick="hideHandler()">
+    </div>
+    <div id="mapid"></div>
+    <script>
+        var map = new L.GeoMap('mapid', { zoom: 5 });
+        map.setView([31.578140, 120.309906], 11);
+
+        var data = [
+            { "from": [120.31471252441406, 31.59173583931988], "to": [120.2886199951172, 31.683746337366756], "labels": [null, "惠山"], "color": "#ff7e2b" },
+            { "from": [120.31471252441406, 31.59173583931988], "to": [120.10322570800783, 31.449600219202694], "labels": [null, "马山"], "color": "#ffc726" },
+            { "from": [120.31471252441406, 31.59173583931988], "to": [120.27351379394533, 31.47088622994488], "labels": [null, "雪浪"], "color": "#e9ff20" },
+            { "from": [120.31471252441406, 31.59173583931988], "to": [120.45753479003905, 31.58486938424176], "labels": [null, "无锡东"], "color": "#99ff1b" }];
+
+        var data2 = [
+            { "from": [120.2886199951172, 31.683746337366756], "to": [120.31471252441406, 31.59173583931988], "labels": [null, "梁溪区"], "color": "#ff7e2b" },
+            { "from": [120.2886199951172, 31.683746337366756], "to": [120.10322570800783, 31.449600219202694], "labels": [null, "马山"], "color": "#ffc726" },
+            { "from": [120.2886199951172, 31.683746337366756], "to": [120.27351379394533, 31.47088622994488], "labels": [null, "雪浪"], "color": "#e9ff20" },
+            { "from": [120.2886199951172, 31.683746337366756], "to": [120.45753479003905, 31.58486938424176], "labels": [null, "无锡东"], "color": "#99ff1b" }];
+
+
+        var migrationLayer = new L.migrationLayer({
+            map: map,
+            data: data,
+            pulseRadius: 30,
+            pulseBorderWidth: 3,
+            arcWidth: 1,
+            arcLabel: true,
+            arcLabelFont: '10px sans-serif',
+        }
+        );
+        migrationLayer.addTo(map);
+
+        function changedataHandler() {
+            migrationLayer.setData(data2);
+        }
+        function hideHandler() {
+            migrationLayer.hide();
+        }
+        function showHandler() {
+            migrationLayer.show();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>示例-天地图底图加载自定义</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="../../dist/jquery-1.11.1.min.js"></script>
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <script src="../../dist/echarts.min.js"></script>
+    <script src="../../src/layer/echartslayer.js"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        #mapid {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mapid">
+    </div>
+    <script>
+
+        var veclayer = new L.GeoWMTSLayer("http://t0.tianditu.cn/vec_c/wmts", {
+            id: "_baseLayerId",
+            layer: "vec",
+            subdomains: '01234567',
+            maxZoom: 18,
+            tileSize: 256,
+            continuousWorld: true,
+            minZoom: 0,
+            zoom: 8
+        });
+
+        var veclayer_c = new L.GeoWMTSLayer("http://t0.tianditu.cn/cva_c/wmts", {
+            id: "_baseLayerId",
+            layer: "cva",
+            subdomains: '01234567',
+            maxZoom: 18,
+            tileSize: 256,
+            continuousWorld: true,
+            minZoom: 0,
+            zoom: 8
+        });
+
+        var vecGroup = L.layerGroup([veclayer, veclayer_c]);
+
+
+        this.map = new L.GeoMap('mapid', {
+            maxZoom: 21,
+            minZoom: 0,
+            continuousWorld: true,
+            worldCopyJump: false,
+            useDefault: false
+        });
+
+
+
+        map.addLayer(vecGroup);
+        map.setView([30.24, 120.15], 14);
+        $.get('../data/lines-bus.json', function (data) {
+            var busLines = [].concat.apply([], data.map(function (busLine, idx) {
+                var prevPt;
+                var points = [];
+                for (var i = 0; i < busLine.length; i += 2) {
+                    var pt = [busLine[i], busLine[i + 1]];
+                    if (i > 0) {
+                        pt = [
+                            prevPt[0] + pt[0],
+                            prevPt[1] + pt[1]
+                        ];
+                    }
+                    prevPt = pt;
+
+                    points.push([pt[0] / 1e4, pt[1] / 1e4]);
+                }
+                return {
+                    coords: points
+                };
+            }));
+            option = {
+                series: [{
+                    type: 'lines',
+                    coordinateSystem: 'leaflet',
+                    polyline: true,
+                    data: busLines,
+                    silent: true,
+                    lineStyle: {
+                        normal: {
+                            color: 'rgb(200, 35, 45)',
+                            opacity: 0.2,
+                            width: 1
+                        }
+                    },
+                    progressiveThreshold: 500,
+                    progressive: 200
+                }]
+            };
+            L.echartsLayer(option).addTo(map);
+        });
+
+
+    </script>
+</body>
+
+</html>

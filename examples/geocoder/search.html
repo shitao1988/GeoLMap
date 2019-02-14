@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>示例-地名地址匹配使用示例</title>
+    <meta charset="utf-8" />
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+    <script src="../../dist/jquery-1.11.1.min.js"></script>
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <link href="../res/example.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="mapid"></div>
+    <div class="leaflet-bar custom-button">
+        关键字：
+        <input id="search_key" type="text" value="停车场" />
+        搜索位置：
+        <input id="search_geo" style="width:150px;" type="text" value="" />
+        搜索半径：
+        <input id="search_radius" style="width:50px;" type="text" value="1" />km
+        <input id="search" type="button" value="查询" onclick="searchHandler()" />
+
+        <input id="drawmarker" type="button" value="绘制点" onclick="markerHandler()" />
+        <!--<input id="drawpolyline" type="button" value="绘制线" onclick="polylineHandler()" />
+        <input id="drawpolygon" type="button" value="绘制面" onclick="polygonHandler()" />
+        <input id="drawenvelope" type="button" value="绘制矩形" onclick="envelopeHandler()" />-->
+        <input id="clear" type="button" value="清空" onclick="clearHandler()" />
+    </div>
+    <script>
+        PROXY = "";
+        var geotype = -1, resultLayer = new L.LayerGroup();
+        var map = new L.GeoMap('mapid', {
+            zoom: 13
+        });
+        map.setView([31.578140, 120.309906], 11);
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+        map.addLayer(resultLayer);
+        map.on(L.Draw.Event.CREATED, function (e) {
+            var type = e.layerType,
+                    layer = e.layer;
+
+            if (type === 'marker') {
+                layer.bindPopup('A popup!');
+            }
+            drawnItems.addLayer(layer);
+
+            var wkt = geometryToWKT(geotype);
+            $("#search_geo").val(wkt);
+        });
+        markerHandler = function () {
+            clearHandler();
+            geotype = 0;
+            var markerhandle = new L.Draw.Marker(map);
+            markerhandle.enable();
+        };
+        polylineHandler = function () {
+            clearHandler();
+            geotype = 1;
+            var markerhandle = new L.Draw.Polyline(map);
+            markerhandle.enable();
+        };
+
+        polygonHandler = function () {
+            clearHandler();
+            geotype = 2;
+            var markerhandle = new L.Draw.Polygon(map);
+            markerhandle.enable();
+        };
+
+        envelopeHandler = function () {
+            clearHandler();
+            geotype = 2;
+            var markerhandle = new L.Draw.Rectangle(map);
+            markerhandle.enable();
+        };
+
+        clearHandler = function () {
+            if (drawnItems)
+                drawnItems.clearLayers();
+            if (resultLayer)
+                resultLayer.clearLayers();
+        };
+
+        searchHandler = function () {
+            var key = $("#search_key").val();
+            var df = "type";
+            var radius = $("#search_radius").val();
+            if (radius) {
+                radius = parseInt(radius);
+            }
+            var point = "";
+            var wkt = $("#search_geo").val();
+            if (geotype == 0) {
+                point = wkt.replace("POINT", "").replace("(", "").replace(")", "");
+                wkt = "";
+            }
+
+            var params = {
+                request: "query",
+                key: encodeURIComponent(key),
+                df: df,
+                point: point,
+                wkt: wkt,
+                radius: radius,
+                start: 0,
+                rows: 100
+            };
+            var url = 'http://geowx.imwork.net:10498/geocoder/dmdz/v1';
+            //var url = 'http://localhost:8080/geocoder/dmdz/v1';
+
+            $.ajax({
+                url: url,
+                data: params,
+                success: success,
+                dataType: "json"
+            });
+            function success(data) {
+                if (data.code == 0) {
+                    alert(data.message);
+                }
+                else {
+                    for (var i = 0; i < data.result.length; i++) {
+                        L.marker([data.result[i].y, data.result[i].x]).addTo(resultLayer).bindPopup(data.result[i].address).openPopup();
+                    }
+                }
+            }
+        }
+
+        geometryToWKT = function (geotype) {
+            var wkt = "", wktM = "", wkt_tag = [];
+            if (geotype == 0) {
+                wkt = "POINT";
+                wkt_tag = ["(", ")"];
+            } else if (geotype == 1) {
+                wkt = "LINESTRING";
+                wktM = "MULTILINESTRING(";
+                wkt_tag = ["(", ")"];
+            } else if (geotype == 2) {
+                wkt = "POLYGON";
+                wktM = "MULTIPOLYGON(";
+                wkt_tag = ["((", "))"];
+            }
+            var wktArr = [];
+            drawnItems.eachLayer(function (geo) {
+                if (geo._layers) {
+                    for (var lay in geo._layers) {
+                        var single = getSingleRing(geo._layers[lay], geotype);
+                        wktArr.push(wkt_tag[0] + single.join(",") + wkt_tag[1]);
+                    }
+                } else if (geo._latlngs) {
+                    var single = getSingleRing(geo, geotype);
+                    wktArr.push(wkt_tag[0] + single.join(",") + wkt_tag[1]);
+                }
+                else {
+                    wktArr.push(wkt_tag[0] + geo._latlng.lng.toFixed(6) + " " + geo._latlng.lat.toFixed(6) + wkt_tag[1]);
+                }
+            });
+            if (wktArr.length == 0) return "";
+
+            if (geotype == 0) {
+                wkt += wktArr.join(",");
+                return wkt;
+            } else {
+                if (wktArr.length == 1) {
+                    wkt += wktArr.join(",");
+                    return wkt;
+                } else {
+                    wktM += wktArr.join(",");
+                    wktM += ")";
+                    return wktM;
+                }
+            }
+        }
+
+        getSingleRing = function (geo, geotype) {
+            var single = [];
+            if (geotype == 2) {
+                geo._latlngs = geo._latlngs[0];
+            }
+            for (var i = 0; i < geo._latlngs.length; i++) {
+                single.push(geo._latlngs[i].lng + " " + geo._latlngs[i].lat);
+            }
+            if (geotype == 2) {
+                //多边形要闭合
+                single.push(geo._latlngs[0].lng + " " + geo._latlngs[0].lat);
+            }
+            return single;
+        }
+
+    </script>
+</body>
+</html>

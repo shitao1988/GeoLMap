@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>示例-WMS服务加载(使用注册地址)</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <script src="../../dist/leaflet.wms.js"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        #mapid {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mapid">
+    </div>
+    <script>
+        var map = new L.GeoMap('mapid', {
+            zoom: 5
+        });
+
+        var source = L.WMS.source("http://192.168.1.188:6080/arcgis/services/wxcloud/pm25/MapServer/WMSServer", {
+            "transparent": true,
+            "styles": "default",
+            "format": "image/png"
+        });
+        source.getLayer("0").addTo(map);
+
+        map.setView([31.578140, 120.309906], 11);
+
+    </script>
+</body>
+</html>

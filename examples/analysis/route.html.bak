@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>叠置分析</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="http://192.168.1.181:8080/wx-cloud-mapapi/dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="http://192.168.1.181:8080/wx-cloud-mapapi/dist/jquery-1.11.1.min.js"></script>
+    <script src="http://192.168.1.181:8080/wx-cloud-mapapi/dist/GeoLMap.min.js"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <!-- 查询面板 -->
+    <div style="    position: absolute;
+    z-index: 1000;
+    right: 0px;
+    background-color: white;
+    padding: 20px;">
+        <br/> 起点：
+        <input type="text" id="start" value="116.33297,39.99932" />
+        <br/> 终点：
+        <input type="text" id="end" value="116.36181,39.86875" />
+        <br/>
+        <input type="button" onClick="searchDrivingRoute()" value="驾车路线搜索" />
+    </div>
+    <div id="resultDiv" style="position: absolute;
+    right: 0px;
+    z-index: 1000;
+    background-color: wheat;
+    top: 180px;
+    padding: 10px;
+    width: 500px;display: none;"></div>
+    <!-- 结果面板 -->
+
+    <script>
+        var map = new L.GeoMap('map', {
+            zoom: 1,
+            maxZoom: 21,
+            minZoom: 0,
+            continuousWorld: true,
+            worldCopyJump: false,
+            useDefault: false
+        }).setView([31.5771, 120.289], 15);
+        var featureGroup = L.featureGroup();
+        map.addLayer(featureGroup);
+        var start = $('#start').val();
+        var dest = $('#end').val();
+        var mid = '';
+        var style = '0';
+        // http://map.tianditu.com/data/route?postStr={"orig":"116.22437,39.96186","dest":"116.39294,39.87128","style":0,"mid":""}&type=search
+        var postStr = "{'orig':'" + start + "','dest':'" + dest + "','mid':'" + mid + "','style':'" + style + "'}&type=search";
+        //url为后台servlet请求地址。自己设定，可以参考web.xml中设定，servlet为com.tianditu.servelt.RouteServlet.java 
+        // var url = "http://lbs.tianditu.com/api-new/route.do"
+        var params = {
+            postStr: postStr
+        };
+
+        function searchDrivingRoute() {
+            $.ajax({
+                type: "get",
+                url: 'http://61.177.139.228:9000/gateway/tdtmap/data/route?postStr={"orig":"116.33297,39.99932","dest":"116.36181,39.86875","style":"0"}&type=search',
+               // data: params,
+                // dataType: "jsonp",
+                success: function(json) {
+                    //添加起始点
+                    //createStartMarker(result);
+                    $('#resultDiv').show()
+                    var result = JSON.parse(json);
+                    resolveResult(result);
+                },
+                error: function(err) {
+
+                }
+            });
+        }
+
+        function showRouteLineFeature(routelatlon) {
+            featureGroup.clearLayers();
+            var lonlats = routelatlon.split(";");
+            var lonlatsLength = lonlats.length;
+            var midFeatures = [];
+            var routeLine;
+            var i;
+            if (lonlatsLength > 0) {
+                var lineArr = [];
+                for (i = 0; i < lonlatsLength; i++) {
+                    var lonlat = lonlats[i];
+                    if (lonlat == "") {
+                        continue;
+                    }
+                    var lon = lonlat.split(",")[0] / 1.000000;
+                    var lat = lonlat.split(",")[1] / 1.000000;
+                    var lnglat = L.latLng(lat, lon);
+                    lineArr.push(lnglat);
+                }
+                var style = {
+                    color: "#024DA8",
+                    weight: 5,
+                    opacity: 0.8
+                };
+                routeLine = new L.Polyline(lineArr, style);
+            }
+            featureGroup.addLayer(routeLine);
+            map.fitBounds(featureGroup.getBounds());
+
+
+        };
+
+        function resolveResult(obj) {
+
+            var distance = obj.distance; //路程，单位公里 
+            var duration = obj.duration; //时间，单位秒 
+            var routelatlon = obj.routelatlon; //路径的点信息集合 
+            var parameters = obj.parameters; //起终点、途经点及驾车方案信息。 
+            var routes = obj.routeItems; //详细的行驶信息。 
+            var simples = obj.simpleItems; //简化的行驶信息，不一定存在。 
+            var startName = '';
+            var destName = '';
+
+            var distance_show = distance;
+            var html = "<div class='route_scheme_box'>";
+            html += "<div class='route_scheme5'>";
+            html += "</div>";
+            html += "<div class='total_mileage' style='height:  30px;padding-top: 6px;'>总里程：约<span>" + distance_show + "</span>公里</div>";
+            html += "<div class='circuit_description'>";
+            html += "<div class='route_start_end_infor'><div ></div><span>";
+            var totalStartName = startName;
+            startName = startName.length > 8 ? startName.substring(0, 6) + "..." : startName;
+            html += "</span><div id='route_showResultList_start' title='" + totalStartName + "'>" + startName + "</div></div>";
+            html += "<div class='circuit_description_con'><ul>";
+            var simpleLength = simples.length;
+            if (simpleLength > 0) {
+                //如果有simple，太短的时候可能没有 
+
+                for (var i = 0; i < simpleLength; i++) {
+                    var item = simples[i];
+                    var strguide = item.strguide;
+                    var streetNames = item.streetNames;
+                    var lastStreetName = item.lastStreetName;
+                    var signage = item.signage;
+                    var streetLatLon = item.streetLatLon;
+                    var streetDistance = item.streetDistance;
+                    var segmentNumbers = item.segmentNumber.split("-");
+                    if (i == 0) {
+                        html += "<li class='qidian' strguide='" + item.strguide + "' latlons='" + i + "'>"
+                        html += '<div class="list-icon-container done"><i class="iconfont icon-dingwei1 font-blue"></i></div><div class="list-item-content">'
+                        html += strguide + "</div><ul class='routedetailul' >";
+                        //  html += that.addDetail(segmentNumbers);
+
+                        /*html += "<a><img  src='styles/default/images/onlineMap/8.png' /></a> ";*/
+                    } else if (i == simpleLength - 1) {
+                        html += "<li class='zhongdian' strguide='" + item.strguide + "' latlons='" + i + "'>"
+                        html += '<div class="list-icon-container done"><i class="iconfont icon-dingwei1 font-red-intense"></i></div><div class="list-item-content">'
+                        html += strguide + "</div><ul class='routedetailul''>";
+                        //  html += that.addDetail(segmentNumbers);
+                        /*html += "<a><img src='styles/default/images/onlineMap/9.png'/></a> ";*/
+                    } else {
+                        html += "<li class='tuzhong' strguide='" + item.strguide + "' latlons='" + i + "'>"
+                        html += '<div class="list-icon-container done"><i class="iconfont icon-chuzuche font-grey-mint"></i></div><div class="list-item-content">'
+                        html += strguide + "</div><ul class='routedetailul'>";
+                        //  html += that.addDetail(segmentNumbers);
+                        /*html += "<a><img src='styles/default/images/onlineMap/zjcx.png'/></a> ";*/
+                    }
+                    html += "</ul></li>";
+                }
+            } else {
+
+                //路程太短，没有routes时 
+                html += "<div class='circuit_con_li'>";
+                html += "步行即可到达";
+                html += "</div>";
+
+            }
+            html += "</ul></div>";
+            html += "<div class='clear'></div>";
+            html += "<div class='route_start_end_infor' id='route_showResultList_dest' title='" + destName + "'><div></div>" + destName + "</div>";
+            html += "</div>";
+            html += "</div>";
+            html += "<div class='clear'></div>";
+            html += "</div>";
+            $("#resultDiv").html(html);
+            showRouteLineFeature(routelatlon);
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>示例-地名地址匹配使用示例</title>
+    <meta charset="utf-8" />
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+    <script src="../../dist/jquery-1.11.1.min.js"></script>
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <link href="../res/example.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="mapid"></div>
+    <div class="leaflet-bar custom-button ">
+        地址：
+        <input id="search_gc_key" style="width:300px;" type="text" value="江苏省无锡市江阴市延陵路340号" />
+        <input id="search_gc" type="button" value="地址匹配" onclick="gcHandler()" />
+    </div>
+    <div class="leaflet-bar custom-button custom-button2">
+        位置：
+        <input id="search_re_key" type="text" value="120.295529 31.577046" />
+        容差：
+        <input id="search_tol" style="width:50px;" type="text" value="1" />km
+        <input id="search_re" type="button" value="反向编码" onclick="reHandler()" />
+        匹配地址：
+        <input id="search_re_add" style="width:300px;" type="text" value="" />
+    </div>
+    <script>
+        PROXY = "";
+        var geotype = -1, resultLayer = new L.LayerGroup();
+        var map = new L.GeoMap('mapid', {
+            zoom: 13
+        });
+        map.setView([31.578140, 120.309906], 11);
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+        map.addLayer(resultLayer);
+        map.on("click", function (e) {
+            $("#search_re_key").val(e.latlng.lng + " " + e.latlng.lat);
+        });
+
+        clearHandler = function () {
+            if (drawnItems)
+                drawnItems.clearLayers();
+            if (resultLayer)
+                resultLayer.clearLayers();
+        };
+
+        gcHandler = function () {
+            var address = $("#search_gc_key").val();
+
+            var params = {
+                request: "geocoder",
+                address: address
+            };
+            var url = 'http://geowx.imwork.net:10498/geocoder/dmdz/v1';
+
+            $.ajax({
+                url: url,
+                data: params,
+                success: success,
+                dataType: "json"
+            });
+            function success(data) {
+                if (data.code == 0) {
+                    alert(data.message);
+                }
+                else {
+                    for (var i = 0; i < data.result.length; i++) {
+                        L.marker([data.result[i].y, data.result[i].x]).addTo(resultLayer).bindPopup(data.result[i].address).openPopup();
+                    }
+                }
+            }
+        }
+
+        reHandler = function () {
+            clearHandler();
+            var point = $("#search_re_key").val();
+
+            if (point) {
+                var arr = point.split(" ");
+                L.marker([arr[1], arr[0]]).addTo(resultLayer);
+                map.panTo([arr[1], arr[0]]);
+            }
+            var tol = $("#search_tol").val();
+            if (tol) {
+                tol = parseInt(tol);
+            }
+
+            var params = {
+                request: "reverse",
+                point: point,
+                tolerance: tol
+            };
+            var url = 'http://geowx.imwork.net:10498/geocoder/dmdz/v1';
+
+            $.ajax({
+                url: url,
+                data: params,
+                success: success,
+                dataType: "json"
+            });
+            function success(data) {
+                if (data.code == 0) {
+                    alert(data.message);
+                }
+                else {
+                    if (data.result.length > 0) {
+                        $("#search_re_add").val(data.result[0].address);
+                        for (var i = 0; i < data.result.length; i++) {
+                            L.marker([data.result[i].y, data.result[i].x]).addTo(resultLayer).bindPopup(data.result[i].address).openPopup();
+                        }
+                    } else {
+                        alert("未匹配到地址.");
+                    }
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>

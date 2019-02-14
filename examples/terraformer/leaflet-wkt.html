@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>示例-天地图底图加载（默认方式）</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        
+        #mapid {
+            width: 100%;
+            height: 100%;
+        }
+        
+        #submit {
+            position: absolute;
+            z-index: 400;
+            right: 20px;
+            top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mapid">
+    </div>
+    <button id="submit" onclick="loadWkt();">Load WKT into Map</button>
+    <script>
+        var mymap = new L.GeoMap('mapid', {
+            zoom: 5
+        });
+
+        function loadWkt() {
+            // well known text 
+            var wkt = "POLYGON((114.48852539063 30.9375, 116.90551757813 32.6953125, 118.83911132813 32.34375, 120.15747070313 30.6298828125, 118.13598632813 28.1689453125, 115.05981445313 27.421875, 114.53247070313 29.267578125, 114.48852539063 30.9375))";
+            // well known text 转换为 geojson
+            var geojson = L.Terraformer.WKT.parse(wkt);
+            // Create a geojson layer with our new geojson object
+            var layer = L.geoJson(geojson, {}).addTo(mymap);
+            // get a geojson bounding box xmin, ymin, xmax, ymax
+            var bounds = geojson.bbox();
+            // fit the map tp the bounds of the fire.
+            mymap.fitBounds([
+                [bounds[1], bounds[0]],
+                [bounds[3], bounds[2]]
+            ]);
+        }
+    </script>
+</body>
+
+</html>

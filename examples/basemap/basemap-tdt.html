@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>示例-天地图底图加载自定义</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        #mapid {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mapid">
+    </div>
+    <script>
+        
+
+        var veclayer = new L.GeoWMTSLayer("http://t0.tianditu.cn/vec_c/wmts", {
+            id: "_baseLayerId",
+            layer: "vec",
+            subdomains: '01234567',
+            maxZoom: 18,
+            tileSize: 256,
+            continuousWorld: true,
+            minZoom: 0,
+            zoom: 8
+        });
+
+        var veclayer_c = new L.GeoWMTSLayer("http://t0.tianditu.cn/cva_c/wmts", {
+            id: "_baseLayerId",
+            layer: "cva",
+            subdomains: '01234567',
+            maxZoom: 18,
+            tileSize: 256,
+            continuousWorld: true,
+            minZoom: 0,
+            zoom: 8
+        });
+
+        var wxveclayer = new L.GeoWMTSLayer("http://61.177.139.228:9000/gateway/WMTSServer/wuxi_newvector", {
+            id: "_wxbaseLayerId",
+            layer: "wxvec",
+            subdomains: '01234567',
+            maxZoom: 20,
+            tileSize: 256,
+            continuousWorld: true,
+            minZoom:18,
+            zoom: 8
+        });
+
+        var wxveclayer_c = new L.GeoWMTSLayer("http://61.177.139.228:9000/gateway/WMTSServer/wuxi_newvectoranno", {
+            id: "_wxbaseLayerId",
+            layer: "wxcva",
+            subdomains: '01234567',
+            maxZoom: 20,
+            tileSize: 256,
+            continuousWorld: true,
+            minZoom: 18,
+            zoom: 8
+        });
+
+        var vecGroup = L.layerGroup([veclayer, veclayer_c,wxveclayer,wxveclayer_c]);
+
+        this.map = new L.GeoMap('mapid', {
+            zoom: 1,
+            maxZoom: 21,
+            minZoom: 0,
+            continuousWorld: true,
+            worldCopyJump: false,
+            useDefault: false
+        });
+
+        var basemaps = {
+            "矢量": vecGroup
+        };
+        L.control.groupedLayers(basemaps).addTo(map);
+
+        map.addLayer(vecGroup);
+        map.setView([31.578140, 120.309906], 11);
+    </script>
+</body>
+</html>

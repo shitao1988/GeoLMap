@@ -1,0 +1,52 @@
+<html>
+<head>
+    <meta charset=utf-8 />
+    <title>示例-TileMapLayer</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="leaflet.css" rel="stylesheet" />
+    <script src="leaflet-src.js"></script>
+     <script src="esri-leaflet.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <script>
+
+        var map = L.map('map',{crs:L.CRS.EPSG4326}).setView([33, 118.7], 4);
+        L.esri.tiledMapLayer({
+            url: "http://221.207.18.111:8081/OneMapServer/rest/services/Vec_Pub_QH_WMTS_L1_L20_czqrmzf/MapServer"
+          }).addTo(map);
+        L.esri.tiledMapLayer({
+            url: "http://221.207.18.111:8081/OneMapServer/rest/services/VecLab_Pub_QH_WMTS_L1_L20_czqrmzf/MapServer"
+          }).addTo(map);
+        var marker=L.marker([33, 118.7]);
+         marker.bindPopup('<video src="http://www.w3school.com.cn/i/movie.ogg" controls="controls">your browser does not support the video tag</video>');
+
+        var lgroup=L.featureGroup().addTo(map);
+
+        //多个marker循环添加到lgroup
+        lgroup.addLayer(marker);
+
+        
+    </script>
+
+</body>
+</html>

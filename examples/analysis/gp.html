@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GP服务分析</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.js"></script>
+
+    <script src="https://unpkg.com/esri-leaflet-gp"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+        
+        #info-pane {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            padding: 1em;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="info-pane" class="leaflet-bar">
+        <label>
+        点击地图查询<br>1 和 2分钟 驾驶范围面
+        </label>
+    </div>
+    <script>
+        var map = new L.GeoMap('map', {
+            zoom: 1,
+            maxZoom: 21,
+            minZoom: 0,
+            continuousWorld: true,
+            worldCopyJump: false,
+            useDefault: false
+        });
+
+        map.setView([37.78, -122.42], 12);
+
+        // L.esri.basemapLayer('Gray').addTo(map);
+
+        var gpService = L.esri.GP.service({
+            url: "https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Network/ESRI_DriveTime_US/GPServer/CreateDriveTimePolygons",
+            useCors: false
+        });
+
+        var gpTask = gpService.createTask();
+
+        gpTask.setParam("Drive_Times", "1 2");
+
+        var driveTimes = L.featureGroup();
+        map.addLayer(driveTimes);
+
+        map.on('click', function(evt) {
+            document.getElementById('info-pane').innerHTML = '查询中...';
+            driveTimes.clearLayers();
+            gpTask.setParam("Input_Location", evt.latlng)
+            gpTask.run(driveTimeCallback);
+        });
+
+        function driveTimeCallback(error, response, raw) {
+            document.getElementById('info-pane').innerHTML = '点击地图查询<br>1 和 2分钟 驾驶范围面';
+            driveTimes.addLayer(L.geoJSON(response.Output_Drive_Time_Polygons));
+        }
+    </script>
+
+</body>
+
+</html>

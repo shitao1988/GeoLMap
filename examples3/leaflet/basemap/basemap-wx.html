@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>示例-基本底图</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        #mapid {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mapid">
+    </div>
+    <script>
+        function init() {
+            this.baseLayer_vec = new L.GeoWMTSLayer("http://32.63.213.15/serviceaccess/wmts/vector", {
+                id: "baseLayer_vec",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 19,
+                minZoom: 11
+            });
+            this.baseLayer_vecLabel = new L.GeoWMTSLayer("http://32.63.213.15/serviceaccess/wmts/vectoranno", {
+                id: "baseLayer_vecLabel",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 19,
+                minZoom: 11
+            });
+
+            this.baseLayer_img = new L.GeoWMTSLayer("http://32.63.213.15/serviceaccess/wmts/image", {
+                id: "baseLayer_img",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 19,
+                minZoom: 11
+            });
+            this.baseLayer_imgLabel = new L.GeoWMTSLayer("http://32.63.213.15/serviceaccess/wmts/imageanno", {
+                id: "baseLayer_imgLabel",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 19,
+                minZoom: 11
+            });
+
+            this.image1966 = new L.GeoWMTSLayer("http://32.63.213.15/serviceaccess/wmts/image1966", {
+                id: "image1966",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 19,
+                minZoom: 11
+            });
+
+            this.image2009 = new L.GeoWMTSLayer("http://32.63.213.15/serviceaccess/wmts/image2009", {
+                id: "image2009",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 19,
+                minZoom: 11
+            });
+
+            this.image2012 = new L.GeoWMTSLayer("http://32.63.213.15/serviceaccess/wmts/image2012", {
+                id: "image2012",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 19,
+                minZoom: 11
+            });
+
+            this.image2014 = new L.GeoWMTSLayer("http://32.63.213.15/serviceaccess/wmts/image2014", {
+                id: "image2014",
+                layer: "0",
+                format: "image/png",
+                tilematrixset: "sss",
+                maxZoom: 19,
+                minZoom: 11
+            });
+
+            this.vecGroup = L.layerGroup([this.baseLayer_vec, this.baseLayer_vecLabel]);
+
+            this.imgGroup = L.layerGroup([this.baseLayer_img, this.baseLayer_imgLabel]);
+
+            var res = [];
+            for (var i = 0; i < 20; i++) {
+                res[i] = 1.40625 / Math.pow(2, i);
+            }
+            var crs = new L.Proj.CRS(
+                'EPSG:4326',
+                "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs", {
+                    origin: [-180.0, 90],
+                    resolutions: res
+                });
+            this.map = new L.GeoMap('mapid', {
+                crs: crs,
+                zoom: 1,
+                maxZoom: 19,
+                minZoom: 11,
+                continuousWorld: true,
+                worldCopyJump: false,
+                useDefault: false
+            });
+
+            var basemaps = {
+                "矢量": this.vecGroup,
+                "影像": this.imgGroup
+            };
+
+            var groupedOverlays = {
+                "其它": {
+                    "1966": this.image1966,
+                    "2009": this.image2009,
+                    "2012": this.image2012,
+                    "2014": this.image2014
+                }
+            };
+
+            var options = {
+                exclusiveGroups: ["Landmarks"],
+                groupCheckboxes: false
+            };
+            L.control.groupedLayers(basemaps, groupedOverlays, options).addTo(this.map);
+
+            this.map.addLayer(this.vecGroup);
+            this.map.setView([31.578140, 120.309906], 11);
+        }
+        window.onload = init;
+    </script>
+</body>
+</html>

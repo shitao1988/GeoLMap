@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>示例-MapServer查询接口(转发后)</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="../../dist/jquery-1.11.1.min.js"></script>
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <link href="../res/example.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="leaflet-bar custom-button">
+        查询关键字：<input id="search-key" value="玉祁镇" type="text" />
+        空间坐标：<input id="search-geo" value="" type="text" /><br /><br />
+        geokey：<input id="geokey" value="9796105aadcc421abdc389bc1ab30162" type="text" />
+        <input id="btn_add" value="叠加" type="button" onclick="addLayer()" />
+        <input id="btn_search" value="属性查询" type="button" onclick="search2()" />
+        <input id="btn_search" value="空间查询" type="button" onclick="search()" />
+        <input id="btn_drawpolygon" type="button" value="绘制面" onclick="polygonHandler()" />
+    </div>
+    <div id="mapid">
+    </div>
+    <script>
+        var imglayer = new L.GeoWMTSLayer("http://t0.tianditu.cn/img_c/wmts", {
+            id: "_baseLayerId",
+            layer: "img",
+            subdomains: '01234567',
+            maxZoom: 21,
+            tileSize: 256,
+            continuousWorld: true,
+            minZoom: 0,
+            zoom: 8
+        });
+
+        var imglayer_c = new L.GeoWMTSLayer("http://t0.tianditu.cn/cia_c/wmts", {
+            id: "_baseLayerId",
+            layer: "cia",
+            subdomains: '01234567',
+            maxZoom: 21,
+            tileSize: 256,
+            continuousWorld: true,
+            minZoom: 0,
+            zoom: 8
+        });
+
+        var veclayer = new L.GeoWMTSLayer("http://t0.tianditu.cn/vec_c/wmts", {
+            id: "_baseLayerId",
+            layer: "vec",
+            subdomains: '01234567',
+            maxZoom: 21,
+            tileSize: 256,
+            continuousWorld: true,
+            minZoom: 0,
+            zoom: 8
+        });
+
+        var veclayer_c = new L.GeoWMTSLayer("http://t0.tianditu.cn/cva_c/wmts", {
+            id: "_baseLayerId",
+            layer: "cva",
+            subdomains: '01234567',
+            maxZoom: 21,
+            tileSize: 256,
+            continuousWorld: true,
+            minZoom: 0,
+            zoom: 8
+        });
+
+        var vecGroup = L.layerGroup([veclayer, veclayer_c]);
+        var imgGroup = L.layerGroup([imglayer, imglayer_c]);
+
+        var map = new L.GeoMap('mapid', {
+            zoom: 1,
+            maxZoom: 21,
+            minZoom: 0,
+            continuousWorld: true,
+            worldCopyJump: false,
+            useDefault: false
+        });
+
+        var basemaps = {
+            "矢量": vecGroup,
+            "影像": imgGroup
+        };
+        L.control.groupedLayers(basemaps).addTo(map);
+
+        map.addLayer(vecGroup);
+        map.setView([31.578140, 120.309906], 11);
+
+
+        var geojson = null;
+        map.on(L.Draw.Event.CREATED, function (e) {
+            var type = e.layerType,
+                    layer = e.layer;
+            drawnItems.addLayer(layer);
+            var arcgis = L.esri.Util.geojsonToArcGIS(layer.toGeoJSON());
+            $("#search-geo").val(JSON.stringify(arcgis.geometry));
+        });
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+        clearHandler = function () {
+            if (drawnItems)
+                drawnItems.clearLayers();
+            if (resultLayer)
+                resultLayer.clearLayers();
+        };
+
+        polygonHandler = function () {
+            clearHandler();
+            var markerhandle = new L.Draw.Polygon(map);
+            markerhandle.enable();
+        };
+
+        addLayer = function () {
+            map.eachLayer(function (layer) {
+                if (layer.options.id == "jiedaobianjie")
+                    map.removeLayer(layer);
+            });
+            var geokey = $("#geokey").val();
+            L.esri.dynamicMapLayer({
+                id: "jiedaobianjie",
+                url: 'http://192.168.1.181/serviceaccess/service/wms/jiedaobianjie',
+                opacity: 0.7,
+                geokey: geokey
+            }).addTo(map);
+        }
+
+        search = function () {
+            var geokey = $("#geokey").val();
+            var searchgeo = $("#search-geo").val();
+            var params = {
+                geometry: searchgeo,//'{"rings":[[[120.24604797363281,31.59393310546875],[120.24604797363281,31.619338989257816],[120.27145385742189,31.619338989257816],[120.27145385742189,31.59393310546875],[120.24604797363281,31.59393310546875]]],"spatialReference":{"wkid":4490}}',
+                geometryType: "esriGeometryPolygon",
+                inSR: "4490",
+                spatialRel: "esriSpatialRelIntersects",
+                outFields: "MC,OBJECTID,FLDM,SHAPE_Leng,SHAPE_Area",
+                returnGeometry: true,
+                f: "pjson",
+                geokey: geokey
+            };
+            var url = 'http://192.168.1.181/serviceaccess/service/wms/jiedaobianjie/0/query';
+
+            $.ajax({
+                url: url,
+                data: params,
+                success: success,
+                dataType: "json"
+            });
+            function success(data) {
+                if (resultLayer)
+                    map.removeLayer(resultLayer);
+
+                var featureCollection = {
+                    type: 'FeatureCollection',
+                    features: []
+                };
+
+                for (var i = data.features.length - 1; i >= 0; i--) {
+                    var feature = L.esri.Util.arcgisToGeoJSON(data.features[i], "OBJECTID");
+                    featureCollection.features.push(feature);
+                }
+
+                resultLayer = L.geoJSON(featureCollection);
+                resultLayer.addTo(map);
+            }
+        }
+        var resultLayer = null;
+        search2 = function () {
+            var geokey = $("#geokey").val();
+            var key = $("#search-key").val();
+            var params = {
+                text: key,
+                f: "pjson",
+                geokey: geokey
+            };
+            var url = 'http://192.168.1.181/serviceaccess/service/wms/jiedaobianjie/0/query';
+
+            $.ajax({
+                url: url,
+                data: params,
+                success: success,
+                dataType: "json"
+            });
+            function success(data) {
+                if (resultLayer)
+                    map.removeLayer(resultLayer);
+
+                var featureCollection = {
+                    type: 'FeatureCollection',
+                    features: []
+                };
+
+                for (var i = data.features.length - 1; i >= 0; i--) {
+                    var feature = L.esri.Util.arcgisToGeoJSON(data.features[i], "OBJECTID");
+                    featureCollection.features.push(feature);
+                }
+
+                resultLayer = L.geoJSON(featureCollection);
+                resultLayer.addTo(map);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>示例-通过代码绘制点线面</title>
+    <meta charset="utf-8" />
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <link href="../res/example.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="mapid"></div>
+    <script>
+        var map = new L.GeoMap('mapid', { zoom: 13 });
+
+        var polygon = new L.Polygon([
+            [31.551361083984375, 120.26561737060548],
+            [31.552734374999996, 120.28347015380861],
+            [31.542434692382816, 120.28587341308592],
+            [31.525268554687496, 120.29239654541016],
+            [31.52801513671875, 120.27935028076173],
+            [31.525268554687496, 120.26699066162111],
+            [31.525268554687496, 120.26699066162111]
+        ]);
+        map.addLayer(polygon);
+
+        var polyline = new L.Polyline([
+            [31.552734374999996, 120.21308898925783],
+            [31.560974121093754, 120.23918151855467],
+            [31.571960449218746, 120.28450012207031],
+            [31.586380004882812, 120.3174591064453],
+            [31.58706665039062, 120.35453796386719],
+            [31.580200195312496, 120.38406372070314],
+            [31.583633422851562, 120.43899536132812],
+            [31.61041259765625, 120.46646118164062]
+        ]);
+        map.addLayer(polyline);
+
+        var circle = L.circle([31.553764343261722, 120.31883239746095], 1500);
+        map.addLayer(circle);
+
+        var rectangle = L.rectangle([
+            [31.491966247558594, 120.26905059814453],
+            [31.51393890380859, 120.32878875732423]
+        ]);
+
+        map.addLayer(rectangle);
+
+        var mark = new L.Marker(new L.LatLng(31.554764343261722, 120.31183239746095));
+        map.addLayer(mark);
+
+        map.setView([31.578140, 120.309906], 11);
+    </script>
+</body>
+</html>

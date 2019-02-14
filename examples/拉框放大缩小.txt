@@ -1,0 +1,257 @@
+L.EX=L.EX||{};
+L.EX.PullBox = L.Handler.extend({
+    includes: L.Mixin.Events,
+    //公有属性。lines存储每一条测距线段的信息
+    //公有属性。points存储当前绘制测距线段的信息，当绘制完成时自动存储到lines里，并将points清空
+    aMarkers:[],
+    options:{
+        zoomStyle:"放大"
+    },
+    //初始化构造函数，初始化时声明featureGroup图层存储绘制的overlay
+    //this._initStyle()加载测距线段样式以及节点marker的样式
+    initialize: function (map, options) {
+        L.Handler.prototype.initialize.call(this, map);
+        L.setOptions(this, options);
+        this._map = map;
+        this._container = map._container;
+
+
+    },
+
+    //调用开启测距功能
+    enable: function(){
+        if(!this._enabled){
+            L.Handler.prototype.enable.call(this);
+        }
+    },
+
+    //关闭开启测距功能
+    disable: function(){
+        if(this._enabled){
+            L.Handler.prototype.disable.call(this);
+        }
+    },
+
+    //增加钩子导入注册事件，开启测距时调用
+    addHooks: function () {
+        if (!this._map) return;
+        this.bindEventListener();
+
+    },
+
+    //增加钩子注销注册事件，关闭时调用
+    removeHooks: function () {
+        if (!this._map) return;
+        this.removeEventListener();
+    },
+
+    //初始化样式
+    _initStyle:function(){
+        //新建L.MarkerNode的样式
+        this.markerStyle={
+            color:"black",
+            opacity:1,
+            weight:1,
+            fill:true,
+            fillColor:"white",
+            fillOpacity:1,
+            clickable: false
+        };
+        //测距鼠标活动处线段
+        this.dashStyle={
+            color: '#f60',
+            opacity:0.4,
+            weight:2,
+            dashArray:"2,5",
+            clickable: false
+        };
+    },
+
+    //注册的测距开启事件
+    bindEventListener:function(){
+        this._map.dragging.disable();
+        this._map.scrollWheelZoom.disable();
+        this._layerGroup=new L.FeatureGroup();
+        this._map.addLayer(this._layerGroup);
+        this.mouseStyle=this._container.style.cursor;
+        this._initStyle();
+        this._map.on('mousedown', this._onMapDown,this);
+        L.DomEvent.on(document,"keydown",this.keyEvent,this);
+        //获取地图容器更改鼠标样式
+        this._container.style.cursor="crosshair";
+        //新建绘制测距的线对象以及鼠标活动的线对象，加入图层，以及新建属性总距离，默认为0
+        this.oPoints=[];
+        this._map.doubleClickZoom.disable();//禁止默认双击
+        this.oBound=null;
+        this.nIndex=0;
+
+    },
+
+    //注销的测距开启事件
+    removeEventListener:function(){
+        this._map.dragging.enable();
+        this._map.scrollWheelZoom.enable();
+        this._map.removeLayer(this._layerGroup);
+        this._map.off('mousedown', this._onMapDown,this);
+        this._map.off('mouseup', this._onMapUp,this);
+        this._map.off('mousemove', this._mouseMove,this);
+        L.DomEvent.off(document,"keydown",this.keyEvent,this);
+        this._map.doubleClickZoom.enable();
+        this._container.style.cursor = this.mouseStyle;
+        this.options.searchTool=false;
+
+    },
+
+    //开启测距后单击创建节点以及更新测距线对象
+    _onMapDown:function(event){
+        this._map.on('mouseup', this._onMapUp,this);
+        this._map.on('mousemove', this._mouseMove,this);
+
+        this.oPoints=[event.latlng.lat, event.latlng.lng];
+        this._map.fire('PullBoxstart');
+    },
+
+
+    //双击执行方法
+    _onMapUp:function(){
+        this.removeAllLayers();
+        this.oBound=null;
+        this.nIndex=0;
+        this.oPoints=[];
+        this.oMarker=null;
+        this.disable();
+        this._map.fire('PullBoxend');
+    },
+
+    _mouseMove:function(event){
+        this.nIndex++;
+        this.oBound=[this.oPoints,[event.latlng.lat, event.latlng.lng]];
+        if(this.nIndex==1){
+            this.oBox=new L.Rectangle(this.oBound,this.dashStyle);
+            this._layerGroup.addLayer(this.oBox);
+        }
+        this.oBox.setBounds(this.oBound);
+
+    },
+
+    //清楚图层所有的layers
+    removeAllLayers:function(){
+        this._layerGroup.clearLayers();
+    },
+
+    //按下ESC触发的事件
+    keyEvent:function(event){
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if(e && e.keyCode==27){ // 按 Esc
+            this.disable();
+        }
+    }
+});
+
+/**
+ * Created by wq on 2016/8/24.
+ */
+/**
+ * Created by wq on 2016/8/15.
+ */
+/**
+ *
+ * name:L.markerNode
+ * author:王强
+ * discrible:
+ * 测距功能主要有两个类构成，即
+ * 节点对象L.MarkerNode，节点本身继承与circleMarker，new一个可以绘制一个圆形marker，内置可以存储上一节点对象，下一节点对象，
+ *      公有方法_createCircleMarker可以创建iconMarker用来显示测距距离，
+ *      共有方法setPastNode设置上一节点，设置时会自动计算距离上一节点的距离作为对象属性，
+ *      公有方法setNextNode设置下一节点
+ *      公有方法setIconDiv用来更新删除节点时后面节点的iconmarker属性
+ *  测距对象L.MeasureLine
+ * Data:Created by lenovo on 2016/8/9.
+ */
+L.EX=L.EX||{};
+L.EX.EnlargeBox = L.EX.PullBox.extend({
+    //公有属性。lines存储每一条测距线段的信息
+    //公有属性。points存储当前绘制测距线段的信息，当绘制完成时自动存储到lines里，并将points清空
+    options:{
+    },
+    //初始化构造函数，初始化时声明featureGroup图层存储绘制的overlay
+    //this._initStyle()加载测距线段样式以及节点marker的样式
+    initialize: function (map, options) {
+        L.EX.PullBox.prototype.initialize.call(this, map,options);
+        L.setOptions(this, options);
+        this._map = map;
+        this._container = map._container;
+    },
+    //双击执行方法
+    _onMapUp:function(){
+        if(this.oBound)
+            this._zoomInTool(this.oBound);
+        L.EX.PullBox.prototype._onMapUp.call(this);
+    },
+    _zoomInTool:function(oBound){
+        this._map.fitBounds(oBound);
+    }
+});
+
+/**
+ * Created by wq on 2016/8/25.
+ */
+/**
+ * Created by wq on 2016/8/24.
+ */
+/**
+ * Created by wq on 2016/8/15.
+ */
+/**
+ *
+ * name:L.markerNode
+ * author:王强
+ * discrible:
+ * 测距功能主要有两个类构成，即
+ * 节点对象L.MarkerNode，节点本身继承与circleMarker，new一个可以绘制一个圆形marker，内置可以存储上一节点对象，下一节点对象，
+ *      公有方法_createCircleMarker可以创建iconMarker用来显示测距距离，
+ *      共有方法setPastNode设置上一节点，设置时会自动计算距离上一节点的距离作为对象属性，
+ *      公有方法setNextNode设置下一节点
+ *      公有方法setIconDiv用来更新删除节点时后面节点的iconmarker属性
+ *  测距对象L.MeasureLine
+ * Data:Created by lenovo on 2016/8/9.
+ */
+L.EX=L.EX||{};
+L.EX.EnSmallBox = L.EX.PullBox.extend({
+    //公有属性。lines存储每一条测距线段的信息
+    //公有属性。points存储当前绘制测距线段的信息，当绘制完成时自动存储到lines里，并将points清空
+    options:{
+    },
+    //初始化构造函数，初始化时声明featureGroup图层存储绘制的overlay
+    //this._initStyle()加载测距线段样式以及节点marker的样式
+    initialize: function (map, options) {
+        L.EX.PullBox.prototype.initialize.call(this, map,options);
+        L.setOptions(this, options);
+        this._map = map;
+        this._container = map._container;
+    },
+    //双击执行方法
+    _onMapUp:function(){
+        if(this.oBound)
+            this._zoomOutTool(this.oBound);
+        L.EX.PullBox.prototype._onMapUp.call(this);
+    },
+    //拉框缩小的方法
+    _zoomOutTool:function(oBound){
+        var _oBound,_bounds,nDx,nDy,nDx1,nDy1,oBoxCenter,
+            nNewX0,nNewX1,nNewY0,nNewY1,oNewBound;
+        _oBound=new L.Bounds(oBound[0],oBound[1]);
+        _bounds=this._map.getBounds();
+        nDx=_bounds._southWest.lat-_bounds._northEast.lat;
+        nDy=_bounds._southWest.lng-_bounds._northEast.lng;
+        nDx1=oBound[1][0]-oBound[0][0];
+        nDy1=oBound[1][1]-oBound[0][1];
+        oBoxCenter=_oBound.getCenter();
+        nNewX0=oBoxCenter.x-nDx/nDx1*nDx/2;
+        nNewX1=oBoxCenter.x+nDx/nDx1*nDx/2;
+        nNewY0=oBoxCenter.y-nDy/nDy1*nDy/2;
+        nNewY1=oBoxCenter.y+nDy/nDy1*nDy/2;
+        oNewBound=[[nNewX0,nNewY0],[nNewX1,nNewY1]];
+        this._map.fitBounds(oNewBound);
+    }
+});

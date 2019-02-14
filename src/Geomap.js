@@ -1,24 +1,37 @@
 'use strict';
 L.GeoMap = L.Map.extend({
     options: {
-        basetileLayer: [],
+        basetileLayer: null,
         featureLayer: {},
         legendControl: {},
         GeoCoder: false,
     },
-    initialize: function(element,  options) {
+    initialize: function(element, options) {
+
+        var res = [];
+        for (var i = 0; i < 21; i++) {
+            res[i] = 1.40625 / Math.pow(2, i);
+        }
+        var crs = new L.Proj.CRS(
+            'EPSG:4326',
+            "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs", {
+                origin: [-180.0, 90],
+                resolutions: res
+            });
+
+
         var customoptions = options;
         options = L.setOptions(this, options);
         L.Map.prototype.initialize.call(this, element, L.extend({}, L.Map.prototype.options, options));
         if (customoptions && customoptions.crs) {} else {
-            options.crs = L.GeoTDTCRS;
+            options.crs = crs;
         }
-
-
-        if (options.basetileLayer.length > 0) {
+        if (options.basetileLayer instanceof Array && options.basetileLayer.length > 0) {
             for (var i = 0; i < options.basetileLayer.length; i++) {
                 this.addLayer(options.basetileLayer[i]);
             }
+        } else if (options.basetileLayer instanceof Array && options.basetileLayer.length == 0) {
+
         } else {
             this.addLayer(new L.GeoTDTLayer.Vector());
             this.addLayer(new L.GeoTDTLayer.VectorAnno());
@@ -46,14 +59,3 @@ L.GeoMap = L.Map.extend({
 L.geomap = function(element, options) {
     return new L.GeoMap(element, options);
 };
-/* L.Map.include({
-         addHash: function(){
-             this._hash = L.hash(this);
-             return this;
-         },
- 
-         removeHash: function(){
-             this._hash.remove();
-             return this;
-         }
-     });*/

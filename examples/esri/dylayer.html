@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>示例-dylayer</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap-S.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <script>
+        var map = new L.GeoMap('map', {
+            zoom: 1,
+            maxZoom: 21,
+            minZoom: 0,
+            continuousWorld: true,
+            worldCopyJump: false,
+            useDefault: false
+        }).setView([37.578, 120.3], 10);;
+        // var map = L.map('map').setView([33, 118.7], 10);
+        //var map = L.map('map',{crs:L.CRS.EPSG4326}).setView([33, 118.7], 4);
+
+        L.esri.dynamicMapLayer({
+            url: 'http://geowx.imwork.net:11599/arcgis/rest/services/学区学区01/MapServer',
+            opacity: 0.7,
+            geokey: '1231',
+            f: 'image'
+        }).addTo(map);
+    </script>
+
+</body>
+
+</html>

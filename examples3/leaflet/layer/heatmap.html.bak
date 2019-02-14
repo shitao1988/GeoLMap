@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>示例-热力图层显示</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="../../dist/jquery-1.11.1.min.js"></script>
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <link href="../res/example.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="mapid"></div>
+    <script>
+        var map = new L.GeoMap('mapid', { zoom: 5 });
+        map.setView([31.578140, 120.309906], 11);
+
+        (function () {
+            var _this = this;
+            url = "../../data/weibo.js";
+
+            var ajax = new L.Ajax();
+            ajax.get(url, {}, true, this, success, function () {
+                alert("数据请求失败");
+            });
+            function success(data) {
+                if (data.code == 0) {
+                    alert("服务请求失败");
+                    return;
+                }
+                else {
+                    var heatpoints = [];
+                    for (var i = 0; i < data.result.length; i++) {
+                        heatpoints.push([data.result[i].LAT, data.result[i].LON, 1]);
+                    }
+
+                    L.heatLayer(heatpoints, {
+                        radius: 15,
+                        blur: 15,
+                        minOpacity: 0.5
+                    }).addTo(map);
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+﻿<jscompress public="http://www.jscompress.cn/" command="import-combineset">
+  <combinefile path="GeoLMap.css">
+    <css_fixedrelativeurl value="1" />
+    <auto value="0" />
+    <sourcefile path="..\src\leaflet\leaflet@1.0.3.css" />
+    <sourcefile path="..\src\Control\L.Control.Zoomslider.css" />
+    <sourcefile path="..\src\Control\leaflet.contextmenu.css" />
+    <sourcefile path="..\src\Control\leaflet.minimaplayerswitcher.css" />
+    <sourcefile path="..\src\Control\leaflet.toolbar-src.css" />
+    <sourcefile path="..\src\Control\MarkerCluster.css" />
+    <sourcefile path="..\src\Control\Leaflet.draw\leaflet.draw@0.4.9.css" />
+    <sourcefile path="..\src\Control\leaflet.groupedlayercontrol.css" /> 
+  </combinefile>
+</jscompress>

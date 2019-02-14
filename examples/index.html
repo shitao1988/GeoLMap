@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="not-ie">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>地图应用开发示例</title>
+    <meta name="viewport" content="width=device-width">
+
+    <!--[if lt IE 9]>
+      <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv-printshiv.js"></script>
+    <![endif]-->
+    <!-- stylesheet -->
+    <link href="res/style.css" rel="stylesheet" />
+    <link href="../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../dist/jquery-1.11.1.min.js"></script>
+    <script src="../dist/GeoLMap.min.js"></script>
+    <script>
+        var data = [
+            {
+                title: "基本示例",
+                list: [
+                    { title: "叠加国家天地图", url: "basemap/basemap-tdt.html", desc: "自定义加载国家天地图" },
+                    { title: "叠加无锡天地图（政务外网）", url: "basemap/basemap-wx.html", desc: "无锡天地图（政务外网），添加基本底图（需要政务环境）。" },
+                    { title: "叠加无锡天地图（互联网）", url: "basemap/basemap-wxtdt.html", desc: "无锡天地图（互联网），添加基本底图" },
+                    { title: "右键菜单", url: "control/contextmenu.html", desc: "右键菜单使用方式，包含事件响应、图标设置等" }
+                ]
+            },
+            {
+                title: "功能接口",
+                list: [
+                    { title: "搜索引擎", url: "geocoder/search.html", desc: "兴趣点搜索、周边查询、多边形查询" },
+                    { title: "图层查询接口", url: "esri/query.html", desc: "MapServer查询接口(使用注册地址)" },
+                ]
+            },
+            {
+                title: "事件",
+                list: [
+                    { title: "地图事件", url: "event/event-map.html", desc: "地图事件添加与控制" }
+                ]
+            },
+            {
+                title: "可视化",
+                list: [
+                    { title: "结合echarts图表显示", url: "layer/echart.html", desc: "结合echarts图表显示，此场景一般在展示各区域统计数据时用到，缩放不同到区域时动态刷新统计数据" },
+                    { title: "结合echarts图表显示2", url: "layer/echart2.html", desc: "结合echarts图表显示，此场景一般在展示各区域统计数据时用到，缩放不同到区域时动态刷新统计数据" },
+                    { title: "迁徙图", url: "layer/migrationlayer.html", desc: "通过迁徙图显示数据相流转情况（需要html5支持）。" },
+                    { title: "热力图", url: "layer/heatmap.html", desc: "通过热力图显示相关空间要素聚集情况（需要html5支持）。" },
+                { title: "WMS", url: "layer/wms.html", desc: "加载WMS服务(使用注册地址)。" }
+                ]
+            },
+            {
+                title: "标注与绘制",
+                list: [
+                    { title: "绘制工具条", url: "draw/draw-basic.html", desc: "绘制工具条基本功能使用，支持节点编辑和删除，可通过代码动态修改绘制样式" },
+                    { title: "自定义绘制工具条", url: "draw/draw-custombutton.html", desc: "使用外部html控件触发绘制功能" },
+                    { title: "启用图形编辑", url: "draw/draw-edithandlers.html", desc: "使用代码绘制点线面等几何图形，再使用代码启动编辑。点击保存，使修改生效" },
+                    { title: "显示图形", url: "draw/draw-showshape.html", desc: "使用代码绘制点线面等几何图形" },
+                    { title: "文字标注", url: "label/label.html", desc: "文字标注显示，支持自定义样式" }
+                ]
+            },
+            {
+                title: "聚合点相关",
+                list: [
+                    { title: "聚合点相关（1）", url: "cluster/marker-clustering-custom.html", desc: "自定义集聚显示样式" },
+                    {
+                        title: "聚合点相关（2）",
+                        url: "cluster/marker-clustering-dragging.html",
+                        desc: "拖动一个标记到一个集聚点，通过代码随机移动标记"
+                    },
+                    {
+                        title: "聚合点相关（3）",
+                        url: "cluster/marker-clustering-realworld.10000.html",
+                        desc: "移动到集聚点上查看下级范围，点击后绽放到下级范围"
+                    },
+                    { title: "聚合点相关（4）", url: "cluster/marker-clustering.html", desc: "随机生成示例数据，展示集聚显示效果，通过代码动态添加删除数据" }
+                ]
+            },
+
+            {
+                title: "格式转换",
+                list: [
+                    { title: "arcgis&geojson", url: "terraformer/arcgis&geojson.html", desc: "arcgis空间字段格式转geojson格式。" },
+                    { title: "wkt&geojson", url: "terraformer/wkt&geojson.html", desc: "wkt格式转geojson格式。" },
+                ]
+            },
+            {
+                title: "其它",
+                list: [
+                    { title: "图形编辑", url: "misc/draw-turf1.html", desc: "turf功能使用，空间图形合并，使用本地数据。" },
+                ]
+            }
+        ];
+    </script>
+</head>
+<body>
+    <div class="page-content ">
+        <div class="container">
+            <a class="site-nav left logo" href="../">地图应用开发示例</a>
+            <nav class="right">
+                <a class="site-nav" target="_blank" href="../doc/leaflet103/index.html">API参考</a>
+                <a class="site-nav" target="_blank" href="../dist/geolmap.7z">API下载</a>
+                <a class="site-nav" target="_blank" href="http://leafletjs.com/index.html">Leaflet 官网</a>
+            </nav>
+        </div>
+        <div id="background-map" class="background-map"></div>
+        <div class="container white">
+            <aside class="sidebar"></aside>
+            <div class="example-content">
+                <div class="wrap">
+                    <h1>快速开始</h1>
+                    <p>这是一个基于leaflet的示例程序，实现地图的基本展现功能。</p>
+                </div>
+                <div id="map-wrapper">
+                    <iframe id="iframe_build" name="ifram_build" frameborder="0" scrolling="no" style="width:100%;height:100%" src="basemap/basemap-tdt.html"></iframe>
+                </div>
+            </div>
+            <div style='clear:both;'></div>
+        </div>
+        <div class="container centered-text">
+        </div>
+        <script>
+            var map;
+            var bgmap = L.map('background-map', {
+                center: [37.739, -117.986],
+                zoom: 10,
+                scrollWheelZoom: false,
+                touchZoom: true,
+                zoomControl: false,
+                tap: false,
+                attributionControl: false,
+                layers: [L.esri.basemapLayer('Topographic')]
+            });
+
+            if (map) {
+                map.scrollWheelZoom.disable();
+                map.once("click", accidentalScroll, map);
+            }
+
+            function accidentalScroll() {
+                map.scrollWheelZoom.enable();
+            }
+
+            var html = [];
+            for (var i = 0; i < data.length; i++) {
+                html.push("<h5>" + data[i].title + "</h5>");
+                html.push("<nav>");
+                for (var j = 0; j < data[i].list.length; j++) {
+                    html.push('<a href="#" data-url="' + data[i].list[j].url + '" data-desc="' + data[i].list[j].desc + '">' + data[i].list[j].title + '</a>');
+                }
+                html.push("</nav>");
+            }
+            $(".sidebar").html(html.join(""));
+
+            $(".container a").click(function () {
+                var url = ($(this).attr("data-url"));
+                var desc = ($(this).attr("data-desc"));
+                if (url) {
+                    $("#iframe_build").attr("src", url);
+                }
+                if (desc) {
+                    $(".example-content .wrap h1").text($(this).text());
+                    $(".example-content .wrap p ").text(desc);
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

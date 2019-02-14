@@ -16,7 +16,7 @@ L.GeoWMTSLayer = L.TileLayer.extend({
         format: 'tiles'
     },
     layerType: 'WMTSLayer',
-    initialize: function(url, options) { // (String, Object)
+    initialize: function (url, options) { // (String, Object)
         this._url = url instanceof Array ? url : [url];
         var wmtsParams = L.extend({}, this.defaultWmtsParams),
             tileSize = options.tileSize || this.options.tileSize;
@@ -34,14 +34,15 @@ L.GeoWMTSLayer = L.TileLayer.extend({
         this.wmtsParams = wmtsParams;
         L.setOptions(this, options);
     },
-    onAdd: function(map) {
+    onAdd: function (map) {
         L.TileLayer.prototype.onAdd.call(this, map);
     },
-    getTileUrl: function(tilePoint) {
+    getTileUrl: function (tilePoint) {
         var url = this._url[(tilePoint.x + tilePoint.y) % this._url.length];
+        if (!url) url = this._url[0];
         return url + L.Util.getParamString(this.wmtsParams, url) + "&tilematrix=" + tilePoint.z + "&tilerow=" + tilePoint.y + "&tilecol=" + tilePoint.x;
     },
-    setParams: function(params, noRedraw) {
+    setParams: function (params, noRedraw) {
         L.extend(this.wmtsParams, params);
         if (!noRedraw) {
             this.redraw();
@@ -49,7 +50,7 @@ L.GeoWMTSLayer = L.TileLayer.extend({
         return this;
     }
 });
-L.geowmtslayer = function(url, options) {
+L.geowmtslayer = function (url, options) {
     return new L.GeoWMTSLayer(url, options);
 };
 /**
@@ -63,7 +64,7 @@ L.geowmtslayer = function(url, options) {
 L.GeoTDTLayer = L.GeoWMTSLayer.extend({
     urlArray: [],
     tdtOptions: {},
-    initialize: function(url, options) { // (String, Object)
+    initialize: function (url, options) { // (String, Object)
         this._url = this.urlArray;
         options = this.tdtOptions;
         var wmtsParams = L.extend({}, this.defaultWmtsParams),
@@ -84,80 +85,55 @@ L.GeoTDTLayer = L.GeoWMTSLayer.extend({
     }
 });
 L.GeoTDTLayer.Vector = L.GeoTDTLayer.extend({
-    urlArray: ["http://t0.tianditu.com/vec_c/wmts", "http://t1.tianditu.com/vec_c/wmts", "http://t2.tianditu.com/vec_c/wmts", "http://t3.tianditu.com/vec_c/wmts"],
+    urlArray: ["http://t0.tianditu.gov.cn/vec_c/wmts", "http://t1.tianditu.gov.cn/vec_c/wmts", "http://t2.tianditu.gov.cn/vec_c/wmts", "http://t3.tianditu.gov.cn/vec_c/wmts"],
     tdtOptions: {
         layer: 'vec',
         style: 'default',
         format: 'tiles',
-        tilematrixSet: 'c',
+        tileMatrixSet: 'c',
+        tk:'56e2ef8967b3a0dbb746b7a40b7faa94',
         attribution: '天地图'
     }
 });
 L.GeoTDTLayer.VectorAnno = L.GeoTDTLayer.extend({
-    urlArray: ["http://t0.tianditu.com/cva_c/wmts", "http://t1.tianditu.com/cva_c/wmts", "http://t2.tianditu.com/cva_c/wmts", "http://t3.tianditu.com/cva_c/wmts"],
+    urlArray: ["http://t0.tianditu.gov.cn/cva_c/wmts", "http://t1.tianditu.gov.cn/cva_c/wmts", "http://t2.tianditu.gov.cn/cva_c/wmts", "http://t3.tianditu.gov.cn/cva_c/wmts"],
     tdtOptions: {
         layer: 'cva',
         style: 'default',
         format: 'tiles',
-        tilematrixSet: 'c',
+        tileMatrixSet: 'c',
+        tk:'56e2ef8967b3a0dbb746b7a40b7faa94',
         attribution: '天地图'
     }
 });
 L.GeoTDTLayer.Raster = L.GeoTDTLayer.extend({
-    urlArray: ["http://t0.tianditu.com/img_c/wmts", "http://t1.tianditu.com/img_c/wmts", "http://t2.tianditu.com/img_c/wmts", "http://t3.tianditu.com/img_c/wmts"],
+    urlArray: ["http://t0.tianditu.gov.cn/img_c/wmts", "http://t1.tianditu.gov.cn/img_c/wmts", "http://t2.tianditu.gov.cn/img_c/wmts", "http://t3.tianditu.gov.cn/img_c/wmts"],
     tdtOptions: {
         layer: 'img',
         style: 'default',
         format: 'tiles',
-        tilematrixSet: 'c',
+        tileMatrixSet: 'c',
+        tk:'56e2ef8967b3a0dbb746b7a40b7faa94',
         attribution: '天地图'
     }
 });
 L.GeoTDTLayer.RasterAnno = L.GeoTDTLayer.extend({
-    urlArray: ["http://t0.tianditu.com/cia_c/wmts", "http://t1.tianditu.com/cia_c/wmts", "http://t2.tianditu.com/cia_c/wmts", "http://t3.tianditu.com/cia_c/wmts"],
+    urlArray: ["http://t0.tianditu.gov.cn/cia_c/wmts", "http://t1.tianditu.gov.cn/cia_c/wmts", "http://t2.tianditu.gov.cn/cia_c/wmts", "http://t3.tianditu.gov.cn/cia_c/wmts"],
     tdtOptions: {
         layer: 'cia',
         style: 'default',
         format: 'tiles',
-        tilematrixSet: 'c',
+        tileMatrixSet: 'c',
+        tk:'56e2ef8967b3a0dbb746b7a40b7faa94',
         attribution: '天地图'
     }
 });
-L.GeoNJLayer ={};
-L.GeoNJLayer.vector=new L.GeoWMTSLayer("http://www.njmap.gov.cn:8280/ResourcesProxy/Gateway/jcvxwrbcer/NJDLG_DT_NJ/wmts",
-        {minZoom: 0,
-        maxZoom: 20,
-        tileMatrixSet: 'Matrix_0',
-        layer: 'NJDLG_DT_10_20',
-        format: 'image%2Ftile'});
-
-L.GeoNJLayer.vectoranno=new L.GeoWMTSLayer("http://www.njmap.gov.cn:8280/ResourcesProxy/Gateway/abztwxwdik/NJDLG_ZJ_10_20/wmts",
-        {minZoom: 0,
-        maxZoom: 20,
-        tileMatrixSet: 'Matrix_0',
-        layer: 'NJDLG_ZJ_10_20',
-        format: 'image%2Ftile'});
-
-
-L.GeoNJLayer.raster=new L.GeoWMTSLayer("http://58.213.23.212:9000/NJDOM_DT2014/wmts",
-        {minZoom: 0,
-        maxZoom: 20,
-        tileMatrixSet: 'Matrix_0',
-        layer: 'DATA84.NJDOM_DT2014',
-        format: 'image%2Ftile'});
-
-L.GeoNJLayer.rasteranno=new L.GeoWMTSLayer("http://www.njmap.gov.cn:8280/ResourcesProxy/Gateway/jcvxwrbcer/NJDLG_DT_NJ/wmts",
-        {minZoom: 0,
-        maxZoom: 20,
-        tileMatrixSet: 'Matrix_0',
-        layer: 'NJDOM_ZJ_2015',
-        format: 'image%2Ftile'});
 
 
 
 L.GeoTDTCRS = L.extend({}, L.CRS, {
     projection: L.Projection.SphericalMercator,
-    transformation: (function() {
+    transformation: (function () {
         var scale = 0.5 / (Math.PI * L.Projection.SphericalMercator.R);
         return new L.Transformation(scale, 0.5, -scale, 0.5);
     }()),
@@ -248,7 +224,7 @@ L.GeoTDTCRS = L.extend({}, L.CRS, {
         "scale": 563.61693012008664
     }],
     origin: new L.LatLng(90, -180),
-    latLngToPoint: function(latlng, zoom) { // (LatLng, Number) -> Point
+    latLngToPoint: function (latlng, zoom) { // (LatLng, Number) -> Point
         var levelDefine = this.levelDefine;
         var origin = this.origin;
         for (var i = 0; i < levelDefine.length; i++) {
@@ -260,7 +236,7 @@ L.GeoTDTCRS = L.extend({}, L.CRS, {
         }
         return;
     },
-    pointToLatLng: function(point, zoom) { // (Point, Number[, Boolean]) -> LatLng
+    pointToLatLng: function (point, zoom) { // (Point, Number[, Boolean]) -> LatLng
         var levelDefine = this.levelDefine;
         var origin = this.origin;
         for (var i = 0; i < levelDefine.length; i++) {
@@ -272,11 +248,11 @@ L.GeoTDTCRS = L.extend({}, L.CRS, {
         }
         return;
     },
-    project: function(latlng) {
+    project: function (latlng) {
         //return latlng;
         return new L.Point(latlng.lng, latlng.lat);
     },
-    scale: function(zoom) {
+    scale: function (zoom) {
         var levelDefine = this.levelDefine;
         var origin = this.origin;
         var s;
@@ -289,7 +265,7 @@ L.GeoTDTCRS = L.extend({}, L.CRS, {
         }
         return s;
     },
-    _scaleByOrigin: function(zoom, originValue) {
+    _scaleByOrigin: function (zoom, originValue) {
         var s;
         var levelDefine = this.levelDefine;
         for (var i = 0; i < levelDefine.length; i++) {
@@ -299,7 +275,7 @@ L.GeoTDTCRS = L.extend({}, L.CRS, {
         }
         return s;
     },
-    getSize: function(zoom) {
+    getSize: function (zoom) {
         var origin = this.origin;
         var latScale = this._scaleByOrigin(zoom, origin.lat);
         var lngScale = this._scaleByOrigin(zoom, origin.lng);
