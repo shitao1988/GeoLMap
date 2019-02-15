@@ -46,19 +46,7 @@
     </div>
     <script>
 
-        var veclayer = new L.GeoWMTSLayer("http://t0.tianditu.cn/vec_c/wmts", {
-            id: "_baseLayerId",
-            layer: "vec",
-            subdomains: '01234567',
-            maxZoom: 18,
-            tileSize: 256,
-            continuousWorld: true,
-            minZoom: 0,
-            zoom: 8
-        });
 
-
-        var vecGroup = L.layerGroup([veclayer]);
 
 
         this.map = new L.GeoMap('mapid', {
@@ -69,9 +57,6 @@
             useDefault: false
         });
 
-
-
-        map.addLayer(vecGroup);
         map.setView([31.599683,120.2975], 11);
 
        loadData();

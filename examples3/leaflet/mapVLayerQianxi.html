@@ -46,21 +46,6 @@
     </div>
     <script>
 
-        var veclayer = new L.GeoWMTSLayer("http://t0.tianditu.cn/vec_c/wmts", {
-            id: "_baseLayerId",
-            layer: "vec",
-            subdomains: '01234567',
-            maxZoom: 18,
-            tileSize: 256,
-            continuousWorld: true,
-            minZoom: 0,
-            zoom: 8
-        });
-
-
-        var vecGroup = L.layerGroup([veclayer]);
-
-
         this.map = new L.GeoMap('mapid', {
             maxZoom: 21,
             minZoom: 0,
@@ -69,9 +54,6 @@
             useDefault: false
         });
 
-
-
-        map.addLayer(vecGroup);
         map.setView([36.64, 108.15], 5);
 
         $.get('../data/china.json', function (geojson) {

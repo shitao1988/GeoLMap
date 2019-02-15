@@ -7,29 +7,6 @@ var identification = {
 };
 var exampleConfig = {
 
-
-    "Elasticsearch": {
-        name: "Elasticsearch",
-        name_en: "Elasticsearch",
-        localIgnore: true,
-        content: {
-            "es_viz": {
-                name: "可视化",
-                name_en: "Visualization",
-                content: [{
-                    name: "热力/格网图",
-                    name_en: "heat/grid map",
-                    thumbnail: "l_ESHeatMap.gif",
-                    fileName: "ESHeatMap"
-                }, {
-                    name: "航班监控",
-                    name_en: "flight monitor",
-                    thumbnail: "l_PlanesMonitor.gif",
-                    fileName: "PlanesMonitor"
-                }]
-            }
-        }
-    },
     "viz": {
         name: "可视化",
         name_en: "Visualization",
@@ -38,27 +15,10 @@ var exampleConfig = {
                 name: "热力图",
                 name_en: "Heat map",
                 content: [{
-                    name: "随机点",
+                    name: "微博点数据",
                     name_en: "random points",
                     thumbnail: "l_heat.png",
-                    fileName: "12_heatMap"
-                }, {
-                    name: "纽约出租车上车点",
-                    name_en: "NY taxi car point",
-                    thumbnail: "l_heatmap_nyc.png",
-                    fileName: "12_heatMap_NY"
-                }, {
-                    name: "随机点(Classic)",
-                    name_en: "random points (Classic)",
-                    version: "9.1.0",
-                    thumbnail: "l_heatMapLayer.png",
-                    fileName: "heatMapLayer"
-                }, {
-                    name: "2000年到2015年地震热力图(Classic)",
-                    name_en: "Earthquake heat map (2000-2015)",
-                    version: "9.1.0",
-                    thumbnail: "l_earthquakeHeatMap.png",
-                    fileName: "earthquakeHeatMap"
+                    fileName: "heatmap"
                 }]
             },
             "animate": {
@@ -77,42 +37,26 @@ var exampleConfig = {
                 content: [{
                     name: "点聚合",
                     name_en: "marker cluster",
-                    thumbnail: "l_markerCluster.png",
-                    fileName: "12_markerCluster"
+                    thumbnail: "marker_clustering.png",
+                    fileName: "marker_clustering"
+                },{
+                    name: "点聚合-自定义样式",
+                    name_en: "marker cluster",
+                    thumbnail: "marker_clustering_custom.png",
+                    fileName: "marker_clustering_custom"
+                },{
+                    name: "点聚合-点随机移动",
+                    name_en: "marker cluster",
+                    thumbnail: "marker_clustering_dragging.png",
+                    fileName: "marker_clustering_dragging"
+                },{
+                    name: "点聚合-大数据量",
+                    name_en: "marker cluster",
+                    thumbnail: "marker_clustering_big.png",
+                    fileName: "marker_clustering_big"
                 }]
             },
-            "graphicLayer": {
-                name: "高效率点图层",
-                name_en: "High efficiency point layer",
-                content: [
-                    {
-                        name: "纽约出租车18万点",
-                        name_en: "points of 180K NY taxis",
-                        thumbnail: "l_graphicLayer.png",
-                        fileName: "12_graphicLayer"
-                    }, {
-                        name: "随机点-三叶草",
-                        name_en: "random points(clover)",
-                        thumbnail: "l_graphicLayerClover.png",
-                        fileName: "12_graphicLayerClover"
-                    }, {
-                        name: "纽约18万出租车-符号绘制",
-                        name_en: "picture drawing of 180K NY taxis",
-                        thumbnail: "l_graphicLayerImage.png",
-                        fileName: "12_graphicLayerImage"
-                    }, {
-                        name: "纽约145万出租车-webgl",
-                        name_en: "picture drawing of 1.45 million NY taxis",
-                        version: "9.1.0",
-                        thumbnail: "l_graphicLayer_webgl.png",
-                        fileName: "12_graphiclayer_webgl"
-                    }
-                ]
-            },
-            // "D3Theme": {
-            //     name: "D3-单值专题图",
-            //     content: null
-            // },
+  
             "ECharts": {
                 name: "ECharts",
                 name_en: "ECharts",
@@ -385,13 +329,8 @@ var exampleConfig = {
                 name: "客户端专题图",
                 name_en: "Client thematic layer",
                 content: [{
-                    name: "单值专题图",
+                    name: "分段设色专题图",
                     name_en: "unique",
-                    thumbnail: "l_uniqueThemeLayer.png",
-                    fileName: "uniqueThemeLayer"
-                }, {
-                    name: "分段专题图",
-                    name_en: "range",
                     thumbnail: "l_rangeThemeLayer.png",
                     fileName: "rangeThemeLayer"
                 }, {
@@ -399,16 +338,11 @@ var exampleConfig = {
                     name_en: "rank symbol",
                     thumbnail: "l_rankSymbolThemeLayer.png",
                     fileName: "rankSymbolThemeLayer"
-                }, {
-                    name: "标签专题图",
-                    name_en: "label ",
-                    thumbnail: "l_labelThemeLayer.png",
-                    fileName: "labelThemeLayer"
-                }, {
+                },  {
                     name: "图表专题图",
                     name_en: "statistical chart",
                     thumbnail: "l_graphThemeLayer.png",
-                    fileName: "graphThemeLayer"
+                    fileName: "echart2"
                 }]
             }
         }
@@ -421,135 +355,25 @@ var exampleConfig = {
                 name: "标绘",
                 name_en: "Plot",
                 content: [{
-                    name: "动态标绘",
+                    name: "标绘基本",
                     name_en: "dynamic plot",
                     version: "9.1.0",
-                    thumbnail: "plot_dynamicPlot.png",
-                    fileName: "plot_dynamicPlot"
-                }, {
-                    name: "鼠标标绘",
-                    name_en: "plot symbol",
+                    thumbnail: "draw_basic.png",
+                    fileName: "draw_basic"
+                },
+                {
+                    name: "自定义工具条",
+                    name_en: "custom toolbar",
                     version: "9.1.0",
-                    thumbnail: "plot_plotSymbol.png",
-                    fileName: "plot_plotSymbol"
-                }, {
-                    name: "编程标绘",
-                    name_en: "draw",
+                    thumbnail: "draw_custombar.png",
+                    fileName: "draw_custombar"
+                },
+                {
+                    name: "编辑handler",
+                    name_en: "draw handler",
                     version: "9.1.0",
-                    thumbnail: "plot_drawGeoGraphicObject.png",
-                    fileName: "plot_drawGeoGraphicObject"
-                }, {
-                    name: "属性修改",
-                    name_en: "modify symbol style",
-                    version: "9.1.0",
-                    thumbnail: "plot_modifySymbolStyle.png",
-                    fileName: "plot_modifySymbolStyle"
-                }, {
-                    name: "缺省属性",
-                    name_en: "default symbol style",
-                    version: "9.1.0",
-                    thumbnail: "plot_defaultStyle.png",
-                    fileName: "plot_defaultStyle"
-                }, {
-                    name: "自定义属性",
-                    name_en: "extend symbol properties",
-                    version: "9.1.0",
-                    thumbnail: "plot_symbolExtendProperty.png",
-                    fileName: "plot_symbolExtendProperty"
-                }, {
-                    name: "图层操作",
-                    name_en: "layer operations",
-                    version: "9.1.0",
-                    thumbnail: "plot_operatePlottingLayer.png",
-                    fileName: "plot_operatePlottingLayer"
-                }, {
-                    name: "图层编辑",
-                    name_en: "layer editing",
-                    version: "9.1.0",
-                    thumbnail: "plot_editPlottingLayer.png",
-                    fileName: "plot_editPlottingLayer"
-                }, {
-                    name: "标号库加载",
-                    name_en: "load symbol library",
-                    version: "9.1.0",
-                    thumbnail: "plot_loadSymbolLib.png",
-                    fileName: "plot_loadSymbolLib"
-                }, {
-                    name: "查询标号",
-                    name_en: "query symbol",
-                    version: "9.1.0",
-                    thumbnail: "plot_querySymbolLib.png",
-                    fileName: "plot_querySymbolLib"
-                }, {
-                    name: "编辑器",
-                    name_en: "symbol editor",
-                    version: "9.1.0",
-                    thumbnail: "plot_symbolEditor.png",
-                    fileName: "plot_symbolEditor"
-                }]
-            },
-            "trendMap": {
-                name: "态势图",
-                name_en: "Trend plot",
-                content: [{
-                    name: "保存和加载",
-                    name_en: "save and load",
-                    version: "9.1.0",
-                    thumbnail: "plot_saveload.png",
-                    fileName: "plot_saveload"
-                }, {
-                    name: "态势图叠加",
-                    name_en: "add plot symbol file",
-                    version: "9.1.0",
-                    thumbnail: "plot_addfile.png",
-                    fileName: "plot_addfile"
-                }, {
-                    name: "态势图上传下载",
-                    name_en: "plot symbol file upload and download",
-                    version: "9.1.0",
-                    thumbnail: "plot_filetransfer.png",
-                    fileName: "plot_filetransfer"
-                }]
-            },
-            "other": {
-                name: "其他",
-                name_en: "Others",
-                content: [{
-                    name: "几何查询",
-                    name_en: "symbol geometry query",
-                    version: "9.1.0",
-                    thumbnail: "plot_symbolGeometricQuery.png",
-                    fileName: "plot_symbolGeometricQuery"
-                }, {
-                    name: "态势推演",
-                    name_en: "situation deduction",
-                    version: "9.1.0",
-                    thumbnail: "plot_plotGOAnimation.gif",
-                    fileName: "plot_plotGOAnimation"
-                }, {
-                    name: "复杂对象",
-                    name_en: "draw graphics",
-                    version: "9.1.0",
-                    thumbnail: "plot_drawGraphics.png",
-                    fileName: "plot_drawGraphics"
-                }, {
-                    name: "航线",
-                    name_en: "draw route",
-                    version: "9.1.0",
-                    thumbnail: "plot_drawRoute.png",
-                    fileName: "plot_drawRoute"
-                }, {
-                    name: "高性能图层",
-                    name_en: "graphic layer",
-                    version: "9.1.0",
-                    thumbnail: "plot_graphicLayer.png",
-                    fileName: "plot_graphicLayer"
-                }, {
-                    name: "避让区域",
-                    name_en: "symbol avoid",
-                    version: "9.1.0",
-                    thumbnail: "plot_symbolAvoid.png",
-                    fileName: "plot_symbolAvoid"
+                    thumbnail: "draw_handler.png",
+                    fileName: "draw_handler"
                 }]
             }
         }

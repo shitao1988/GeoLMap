@@ -1,25 +1,19 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>集聚示例</title>
+    <title>示例-热力图层显示</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <script src="../../dist/jquery-1.11.1.min.js"></script>
-    <script src="../../dist/GeoLMap.min.js"></script>
     <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
-    <link href="../res/example.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <link href="res/example.css" rel="stylesheet" />
 </head>
 <body>
     <div id="mapid"></div>
-    <script type="text/javascript">
-        var map = new L.GeoMap('mapid', {
-            zoom: 2
-        });
+    <script>
+        var map = new L.GeoMap('mapid', { zoom: 5 });
         map.setView([31.578140, 120.309906], 11);
-
-        var markersGroup = L.markerClusterGroup({
-            chunkedLoading: true
-        });
 
         (function () {
             var _this = this;
@@ -37,14 +31,14 @@
                 else {
                     var heatpoints = [];
                     for (var i = 0; i < data.result.length; i++) {
-                        var marker = L.marker(L.latLng(data.result[i].LAT, data.result[i].LON), {
-                            title: i
-                        });
-                        marker.bindPopup(i);
-                        markersGroup.addLayer(marker);
+                        heatpoints.push([data.result[i].LAT, data.result[i].LON, 1]);
                     }
-                   
-                    map.addLayer(markersGroup);
+
+                    L.heatLayer(heatpoints, {
+                        radius: 15,
+                        blur: 15,
+                        minOpacity: 0.5
+                    }).addTo(map);
                 }
             }
         })();
