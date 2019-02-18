@@ -424,22 +424,7 @@ var exampleConfig = {
                     name: "绘制与修改",
                     name_en: "draw and modify",
                     thumbnail: "l_drawAndModify.png",
-                    fileName: "drawAndModify"
-                }, {
-                    name: "捕捉与修改",
-                    name_en: "snap and modify",
-                    thumbnail: "l_snapAndModify.png",
-                    fileName: "snapAndModify"
-                }]
-            },
-            "changeTileVersion": {
-                name: "缓存切换",
-                name_en: "Tile version switch",
-                content: [{
-                    name: "多版本缓存切换控件",
-                    name_en: "tile version switch control",
-                    thumbnail: "l_changeTileVersion.png",
-                    fileName: "changeTileVersion"
+                    fileName: "draw_basic"
                 }]
             },
             "leafletOfficialControl": {
@@ -506,6 +491,22 @@ var exampleConfig = {
                     name_en: "WMS layer",
                     thumbnail: "l_WMSLayer.png",
                     fileName: "WMSLayer"
+                }]
+            }
+        }
+    },
+    "arcgis": {
+        name: "arcgis",
+        name_en: "arcgis",
+        content: {
+            "MapServer": {
+                name: "MapServer",
+                name_en: "MapServer",
+                content: [{
+                    name: "基本",
+                    name_en: "basic",
+                    thumbnail: "l_WMTSLayer.png",
+                    fileName: "WMTSLayer"
                 }]
             }
         }

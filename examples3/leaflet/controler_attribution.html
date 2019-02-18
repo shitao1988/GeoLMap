@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>示例-版权控件</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        #mapid {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mapid">
+    </div>
+    <script>
+        
+
+        this.map = new L.GeoMap('mapid', {
+            zoom: 1,
+            maxZoom: 21,
+            minZoom: 0,
+            continuousWorld: true,
+            worldCopyJump: false,
+            zoomControl:false,
+            useDefault: false
+        });
+        L.control.attribution({
+        position: 'bottomright',
+        prefix: '版权控件'
+    }).addAttribution(attribution).addTo(map);
+        map.setView([31.578140, 120.309906], 11);
+    </script>
+</body>
+</html>
