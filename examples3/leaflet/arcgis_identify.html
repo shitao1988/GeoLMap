@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>示例-dylayer</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <script src="../../dist/GeoLMap.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #selectedFeatures {
+            position: absolute;
+            top: 10px;
+            right: 80px;
+            z-index: 1000;
+            background: white;
+            padding: 1em;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="map"></div>
+    <div id="selectedFeatures" class="leaflet-bar map-text">点击地图获取信息
+    </div>
+    <script>
+        var map = new L.GeoMap('map', {
+            zoom: 1,
+            maxZoom: 21,
+            minZoom: 0,
+            continuousWorld: true,
+            worldCopyJump: false,
+            useDefault: false
+        }).setView([31.578140, 120.309906], 11);
+
+
+        var mlayer = L.esri.dynamicMapLayer({
+            url: 'http://61.177.139.228:9000/gateway/wuxi_chenguan/grid_road_bate/MapServer',
+            opacity: 0.7,
+            layers: [4],
+            f: 'image'
+        }).addTo(map);
+
+        var identifiedFeature;
+        var pane = document.getElementById('selectedFeatures');
+
+        map.on('click', function (e) {
+            pane.innerHTML = '加载中';
+            if (identifiedFeature) {
+                map.removeLayer(identifiedFeature);
+            }
+            mlayer.identify().layers('all:4').on(map).at(e.latlng).run(function (error, featureCollection) {
+                // make sure at least one feature was identified.
+                if (featureCollection.features.length > 0) {
+                    identifiedFeature = L.geoJSON(featureCollection.features[0]).addTo(map);
+                    var Description =
+                        featureCollection.features[0].properties['名称'] +
+                        ' - ' +
+                        featureCollection.features[0].properties['编码'];
+                    pane.innerHTML = Description;
+                }
+                else {
+                    pane.innerHTML = '未获取到信息.';
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

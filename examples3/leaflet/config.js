@@ -505,8 +505,41 @@ var exampleConfig = {
                 content: [{
                     name: "基本",
                     name_en: "basic",
-                    thumbnail: "l_WMTSLayer.png",
-                    fileName: "WMTSLayer"
+                    thumbnail: "arcgis_basemapserver.png",
+                    fileName: "arcgis_basemapserver"
+                },{
+                    name: "识别信息",
+                    name_en: "identify",
+                    thumbnail: "arcgis_identify.png",
+                    fileName: "arcgis_identify"
+                    
+                },{
+                    name: "弹框",
+                    name_en: "popup",
+                    thumbnail: "arcgis_popup.png",
+                    fileName: "arcgis_popup"
+                    
+                }]
+            },"FeatureServer": {
+                name: "FeatureServer",
+                name_en: "FeatureServer",
+                content: [{
+                    name: "简单示例",
+                    name_en: "basic",
+                    thumbnail: "arcgis_basefeatureserver.png",
+                    fileName: "arcgis_basefeatureserver"
+                },{
+                    name: "样式修改",
+                    name_en: "style",
+                    thumbnail: "arcgis_featurestyle.png",
+                    fileName: "arcgis_featurestyle"
+                    
+                },{
+                    name: "弹框",
+                    name_en: "popup",
+                    thumbnail: "arcgis_featurepopup.png",
+                    fileName: "arcgis_featurepopup"
+                    
                 }]
             }
         }
@@ -546,7 +579,7 @@ var sideBarIconConfig = {
     "plot": "fa-edit",
     "dynamicPlot": "fa-pencil",
     "control": "fa-sliders",
-    "widgets": "fa-window-restore",
+    "arcgis": "fa-window-restore",
     "clientSpatialAnalyst": "fa-object-group",
     "viz": "fa-map",
     "OGC": "fa-globe",
@@ -567,7 +600,7 @@ var exampleIconConfig = {
     "plot": "fa-edit",
     "dynamicPlot": "fa-pencil",
     "control": "fa-sliders",
-    "widgets": "fa-window-restore",
+    "arcgis": "fa-window-restore",
     "clientSpatialAnalyst": "fa-object-group",
     "viz": "fa-map",
     "OGC": "fa-globe",
