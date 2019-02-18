@@ -276,57 +276,8 @@ var exampleConfig = {
                     fileName: "osmbuildings"
                 }]
             },
-            "tileVectorLayer": {
-                name: "矢量瓦片",
-                name_en: "Vector tile layer",
-                content: [
-                    {
-                        name: "默认风格",
-                        name_en: "normal style",
-                        thumbnail: "l_tileVectorLayer_normal.png",
-                        fileName: "vectorTileLayerNormal"
-                    }, {
-                        name: "月夜风格",
-                        name_en: "night style",
-                        thumbnail: "l_tileVectorLayer_night.png",
-                        fileName: "vectorTileLayerNight"
-                    }, {
-                        name: "强边界风格",
-                        name_en: "boundray style",
-                        thumbnail: "l_tileVectorLayer_boundray.png",
-                        fileName: "vectorTileLayerBoundary"
-                    }, {
-                        name: "深夜蓝黑风格",
-                        name_en: "dark-blue style",
-                        thumbnail: "l_tileVectorLayer_darkBlue.png",
-                        fileName: "vectorTileLayerDarkBlue"
-                    }, {
-                        name: "HelloKitty风格",
-                        name_en: "hellokitty style",
-                        thumbnail: "l_tileVectorLayer_helloKitty.png",
-                        fileName: "vectorTileLayerHelloKitty"
-                    }, {
-                        name: "淡雅绿风格",
-                        name_en: "natural style",
-                        thumbnail: "l_tileVectorLayer_natural.png",
-                        fileName: "vectorTileLayerNatural"
-                    }, {
-                        name: "默认风格(MVT)",
-                        name_en: "normal(MVT)",
-                        thumbnail: "l_tileVectorLayer_normal.png",
-                        fileName: "vectorTileLayerMVT"
-
-                    }, {
-                        name: "默认风格(MVT 4326)",
-                        name_en: "normal(MVT 4326)",
-                        thumbnail: "l_tileVectorLayer_mvt4326.png",
-                        fileName: "vectorTileLayerMVT_4326"
-
-                    }
-                ]
-            },
             "themeLayer": {
-                name: "客户端专题图",
+                name: "专题图",
                 name_en: "Client thematic layer",
                 content: [{
                     name: "分段设色专题图",
