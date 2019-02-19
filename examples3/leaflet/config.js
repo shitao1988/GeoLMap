@@ -128,53 +128,12 @@ var exampleConfig = {
                         thumbnail: "l_echartsEarthquake.png",
                         fileName: "echartsEarthquake"
                     }, {
-                        name: "2018年2月北京房价",
-                        name_en: "Beijing house prices of Lianjia(2018.2)",
-                        version: "9.1.0",
-                        localIgnore: true,
-                        thumbnail: "l_echartsLianjiaGridLayer.png",
-                        fileName: "echartsGridMapLayer"
-                    }, {
-                        name: "北京道路网络图（130万点数据绘制）",
-                        name_en: "Use lines to draw 1.3 millions Beijing streets",
-                        version: "9.1.0",
-                        localIgnore: true,
-                        thumbnail: "l_echartsLinesMillionsBeijingRoads.png",
-                        fileName: "echarts_linesDrawMillionsBeijingRoadsNetwork"
-                    }, {
                         name: "纽约出租车上车点分布图（140万点数据绘制）",
                         name_en: "Use scatter to draw 1.4 millions New York Taxi Points",
                         version: "9.1.0",
                         localIgnore: true,
                         thumbnail: "l_echartScatterMillionsNewYorkTaxi.png",
                         fileName: "echarts_scatterDrawMillionsNewYorkTaxiPoints"
-                    }, {
-                        name: "全国铁路网络图（400万点数据绘制）",
-                        name_en: "Use lines to draw 4 millions Chinese railways",
-                        version: "9.1.0",
-                        localIgnore: true,
-                        thumbnail: "l_echartsLinesMillionsRailway.png",
-                        fileName: "echarts_linesDrawMillionsRailwaysNetwork"
-                    }, {
-                        name: "全国水系图（1400万点数据绘制）",
-                        name_en: "Use lines to draw 14 millions Chinese water system",
-                        version: "9.1.0",
-                        localIgnore: true,
-                        thumbnail: "l_echartsLinesMillionsWaterSystem.png",
-                        fileName: "echarts_linesDrawMillionsWaterSystem"
-                    }, {
-                        name: "全国道路网络图（2500万点数据绘制）",
-                        name_en: "Use lines to draw 25 millions Chinese roads",
-                        version: "9.1.0",
-                        localIgnore: true,
-                        thumbnail: "l_echartsLinesMillionsRoads.png",
-                        fileName: "echarts_linesDrawMillionsRoadsNetwork_50WFeatures"
-                    }, {
-                        name: "车辆监控模拟",
-                        name_en: "Car Animation",
-                        version: "9.1.0",
-                        thumbnail: "l_echartsAnimatorCar.png",
-                        fileName: "echartsAnimatorCar"
                     }
                 ]
 
