@@ -3,6 +3,13 @@ var tdtbase = {
     "sprite": "http://127.0.0.1:5500/sprites/sprite",
     "glyphs": "http://127.0.0.1:5500/glyphs/{fontstack}/{range}.pbf",
     "sources": {
+        "deck": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": []
+            }
+        },
         "geostar1": {
             "type": "raster",
             "tiles": ["http://t2.tianditu.com/vec_c/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=vec&style=default&tk=56e2ef8967b3a0dbb746b7a40b7faa94&tileMatrixSet=c&format=tiles&height=256&width=256&tilematrixSet=c&attribution=%E5%A4%A9%E5%9C%B0%E5%9B%BE&tilematrix={z}&tilerow={y}&tilecol={x}"],
@@ -15,17 +22,56 @@ var tdtbase = {
         }
     },
     "layers": [
+        // {
+        //     "id": "1",
+        //     "type": "raster",
+        //     "source": "geostar1",
+        //     "raster-opacity": 1
+        // },
+         {
+            "id": "2",
+            "type": "raster",
+            "source": "geostar2",
+            "raster-opacity": 1
+        },]
+}
+
+var tdtbase2 = {
+    "version": 8,
+    "sprite": "http://127.0.0.1:5500/sprites/sprite",
+    "glyphs": "http://127.0.0.1:5500/glyphs/{fontstack}/{range}.pbf",
+    "sources": {
+        "deck": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": []
+            }
+        },
+        "geostar1": {
+            "type": "raster",
+            "tiles": ["http://t2.tianditu.com/vec_w/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=vec&style=default&tk=56e2ef8967b3a0dbb746b7a40b7faa94&tileMatrixSet=w&format=tiles&height=256&width=256&tilematrixSet=w&attribution=%E5%A4%A9%E5%9C%B0%E5%9B%BE&tilematrix={z}&tilerow={y}&tilecol={x}"],
+            "tileSize": 256
+        },
+        "geostar2": {
+            "type": "raster",
+            "tiles": ["http://t1.tianditu.com/cva_w/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=cva&style=default&tk=56e2ef8967b3a0dbb746b7a40b7faa94&tileMatrixSet=w&format=tiles&height=256&width=256&tilematrixSet=w&attribution=%E5%A4%A9%E5%9C%B0%E5%9B%BE&tilematrix={z}&tilerow={y}&tilecol={x}"],
+            "tileSize": 256
+        }
+    },
+    "layers": [
         {
             "id": "1",
             "type": "raster",
             "source": "geostar1",
             "raster-opacity": 1
-        }, {
+        },
+         {
             "id": "2",
             "type": "raster",
             "source": "geostar2",
             "raster-opacity": 1
-        }, ]
+        },]
 }
 
 
@@ -73,7 +119,7 @@ var simple = {
             'minzoom': 15,
             'paint': {
                 'fill-extrusion-color': '#aaa',
-    
+
                 // use an 'interpolate' expression to add a smooth transition effect to the
                 // buildings as the user zooms in
                 'fill-extrusion-height': [
@@ -860,5 +906,5 @@ var simple = {
                 "text-halo-width": 1,
                 "text-halo-color": "#ffffff"
             }
-        } ]
+        }]
 }

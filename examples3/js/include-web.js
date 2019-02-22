@@ -1,4 +1,4 @@
-/* Copyright© 2000 - 2018 SuperMap Software Co.Ltd. All rights reserved.*/
+/* Copyright© 2000 - 2018 .*/
 (function () {
     var r = new RegExp("(^|(.*?\\/))(include-web\.js)(\\?|$)"),
         s = document.getElementsByTagName('script'), targetScript;
@@ -53,7 +53,9 @@
         if (inArray(includes, 'template')) {
             inputScript("http://iclient.supermap.io/libs/art-template/template-web.js");
         }
-    
+        if (inArray(includes, 'papaparse')) {
+            inputScript("https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.2/papaparse.min.js");
+        }
 
         if (inArray(includes, 'admin-lte')) {
             inputCSS("http://iclient.supermap.io/libs/admin-lte/css/AdminLTE.min.css");
@@ -67,8 +69,22 @@
         if (inArray(includes, 'ace')) {
             inputScript("https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js");
         }
-
-
+        if (inArray(includes, 'deck')) {
+            inputScript("http://iclient.supermap.io/web/libs/deck.gl/5.1.3/deck.gl.min.js");
+        }
+        if (inArray(includes, 'mapv')) {
+            inputScript("http://mapv.baidu.com/build/mapv.min.js");
+        }
+        if (inArray(includes, 'echarts')) {
+            inputScript("https://cdnjs.cloudflare.com/ajax/libs/echarts/4.1.0/echarts.min.js");
+            inputScript("http://iclient.supermap.io/libs/echartsLayer/EchartsLayer.js");
+        }
+        if (inArray(includes, 'three')) {
+            inputScript("https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.min.js");
+        }
+        if (inArray(includes, 'echarts-gl')) {
+            inputScript("http://iclient.supermap.io/web/libs/echarts-gl/1.1.1/echarts-gl.min.js");
+        }
        
 
         if (inArray(includes, 'lazyload')) {

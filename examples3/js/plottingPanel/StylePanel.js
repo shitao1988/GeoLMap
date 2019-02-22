@@ -1,4 +1,4 @@
-/* Copyright© 2000 - 2018 SuperMap Software Co.Ltd. All rights reserved.*/
+/* Copyright© 2000 - 2018 .*/
 
 var selectFeatures = [];
 var displayName = ["旋转角度", "随图缩放", "镜像", "标号级别", "Width", "Height",

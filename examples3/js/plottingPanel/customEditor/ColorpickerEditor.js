@@ -1,4 +1,4 @@
-/* Copyright© 2000 - 2018 SuperMap Software Co.Ltd. All rights reserved.*/
+/* Copyright© 2000 - 2018 .*/
 $.extend($.fn.datagrid.defaults.editors, {
     colorpicker: {
         init: function (container, options) {

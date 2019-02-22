@@ -1,8 +1,9 @@
 <!--********************************************************************
-* Copyright© 2000 - 2018 SuperMap Software Co.Ltd. All rights reserved.
+* Copyright© 2000 - 2018 .
 *********************************************************************-->
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -34,12 +35,12 @@
             z-index: 2;
         }
 
-        #title > h3 {
+        #title>h3 {
             margin: 10px 0;
             letter-spacing: 0.1em;
         }
 
-        #title > h6 {
+        #title>h6 {
             margin: 0;
             font-weight: normal;
         }
@@ -66,108 +67,87 @@
         .legendBody {
             padding-top: 10px;
         }
-
     </style>
 </head>
+
 <body>
-<div id="title">
-    <h3 data-i18n="resources.title_mb_deckglLayer_ukcommute"></h3>
-    <h6 data-i18n="resources.text_mb_deckglLayer_ukcommute"></h6>
-</div>
-<div class="legendContainer whiteBackground">
-    <div class="legendHead _flex">
-        <div>home to work</div>
-        <div>Arc Color</div>
+    <div id="title">
+        <h3 data-i18n="resources.title_mb_deckglLayer_ukcommute"></h3>
+        <h6 data-i18n="resources.text_mb_deckglLayer_ukcommute"></h6>
     </div>
-    <div class="legendBody _flex">
-        <svg width="120" height="40">
-            <g transform="translate(0, 0)">
-                <rect width="30" height="20" style="fill: rgb(228, 155, 0);"></rect>
-            </g>
-            <g transform="translate(40, 0)">
-                <rect width="30" height="20" style="fill: rgb(149, 12, 105);"></rect>
-            </g>
-        </svg>
+    <div class="legendContainer whiteBackground">
+        <div class="legendHead _flex">
+            <div>home to work</div>
+            <div>Arc Color</div>
+        </div>
+        <div class="legendBody _flex">
+            <svg width="120" height="40">
+                <g transform="translate(0, 0)">
+                    <rect width="30" height="20" style="fill: rgb(228, 155, 0);"></rect>
+                </g>
+                <g transform="translate(40, 0)">
+                    <rect width="30" height="20" style="fill: rgb(149, 12, 105);"></rect>
+                </g>
+            </svg>
+        </div>
+        <div class="legendHead _flex">
+            <div>workplace add residence</div>
+            <div>Point Color</div>
+        </div>
+        <div class="legendBody _flex">
+            <svg width="120" height="40">
+                <g transform="translate(0, 0)">
+                    <rect width="30" height="20" style="fill: rgb(255, 255, 255);"></rect>
+                </g>
+            </svg>
+        </div>
     </div>
-    <div class="legendHead _flex">
-        <div>workplace add residence</div>
-        <div>Point Color</div>
-    </div>
-    <div class="legendBody _flex">
-        <svg width="120" height="40">
-            <g transform="translate(0, 0)">
-                <rect width="30" height="20" style="fill: rgb(255, 255, 255);"></rect>
-            </g>
-        </svg>
-    </div>
-</div>
-<div id="map"></div>
-<script type="text/javascript" include="papaparse,bootstrap,widgets" src="../js/include-web.js"></script>
-<script type="text/javascript" include="deck" src="../../dist/mapboxgl/include-mapboxgl.js"></script>
-<script type="text/javascript">
+    <div id="map"></div>
+    <script type="text/javascript" include="jquery,papaparse,bootstrap"" src=" ../js/include-web.js"> </script> 
+    <script src='../../dist/mapbox/mapbox-gl-dev53.js'></script>
+    <script src="https://unpkg.com/deck.gl@~6.2.0/deckgl.min.js"></script>
 
-    var host = window.isLocal ? window.server : "http://support.supermap.com.cn:8090",
-        url = host + "/iserver/services/map-china400/rest/maps/ChinaDark";
-    var map, deckglLayer, popup;
-    var attribution = "<a href='https://www.mapbox.com/about/maps/' target='_blank'>© Mapbox </a>" +
-            " with <span>© <a href='http://iclient.supermap.io' target='_blank'>SuperMap iClient</a> | </span>" +
-            " Map Data <span>© <a href='https://uber.github.io/kepler.gl' target='_blank'>kepler.gl</a></span> ";
-
-    map = new mapboxgl.Map({
-        container: 'map',
-        style: {
-            "version": 8,
-            "sources": {
-                "raster-tiles": {
-                    "attribution": attribution,
-                    "type": "raster",
-                    "tiles": [url + '/zxyTileImage.png?z={z}&x={x}&y={y}'],
-                    "tileSize": 256,
-                },
-            },
-            "layers": [{
-                "id": "simple-tiles",
-                "type": "raster",
-                "source": "raster-tiles",
-                "minzoom": 0,
-                "maxzoom": 22
-            }]
-        },
-        center: [-1.8597998742833441, 52.430580528979654],
-        zoom: 6.5,
-        pitch: 40,
-        bearing: -8
-    });
-    map.addControl(new mapboxgl.NavigationControl(), 'top-left');
-
-    widgets.loader.showLoader("data loading...");
-
-    $.get('http://iclient.supermap.io/web/data/deck.gl/ukcommute_data.csv', function (csvstr) {
-        widgets.loader.removeLoader();
-        var features = Papa.parse(csvstr, {skipEmptyLines: true, header: true});
-        addLayer(features.data);
-    });
+    <script src="style.js"></script>
+    <link href='../../dist/mapbox/mapbox-gl.css' rel='stylesheet' />
+    <script type="text/javascript">
 
 
-    function addLayer(features) {
+        var map = new mapboxgl.Map({
+            style: tdtbase2,
+            container: 'map',
+            center: [-1.8597998742833441, 52.430580528979654],
+            zoom: 6,
+            pitch: 40,
+            bearing: -8
+        });
+        map.addControl(new mapboxgl.NavigationControl(), 'top-left');
 
-        deckglLayer = new mapboxgl.supermap.DeckglLayer("arc-layer", {
-            data: features,
-            props: {
+
+        $.get('../data/deck.gl/ukcommute_data.csv', function (csvstr) {
+            var features = Papa.parse(csvstr, { skipEmptyLines: true, header: true });
+            addLayer(features.data);
+        });
+
+        const { MapboxLayer, ArcLayer, ScatterplotLayer} = deck;
+
+        function addLayer(features) {
+
+            const deckglLayer = new MapboxLayer({
+                id: 'my-ArcLayer',
+                type: ArcLayer,
+                data: features,
                 pickable: true,
                 strokeWidth: 1.5,
-                opacity: 0.3
-            },
-            callback: {
+                opacity: 0.3,
                 getStrokeWidth: 12,
-                getSourcePosition: function(feature) {
+                getSourcePosition: function (feature) {
                     if (!feature.residence_lat || !feature.residence_lng) {
                         console.log(feature);
                         return [0, 0]
                     }
                     return [Number(feature.residence_lng), Number(feature.residence_lat)];
                 },
-                getTargetPosition: function(feature) {
+                getTargetPosition: function (feature) {
                     if (!feature.workplace_lng || !feature.workplace_lat) {
                         console.log(feature);
                         return [0, 0]
@@ -176,38 +156,36 @@
                 },
                 getSourceColor: d => [228, 155, 0, 255],
                 getTargetColor: d => [149, 12, 105, 120],
-            }
-        });
-        map.addLayer(deckglLayer);
+            });
+            map.addLayer(deckglLayer);
 
-        var pointsProps = {
-            opacity: 0.3,
-            radiusMinPixels: 0.8,
-            autoHighlight: true,
-            highlightColor: [255, 255, 0, 255],
-            onHover: function(e) {
-                if (!popup) {
-                    popup = new mapboxgl.Popup({
-                        anchor: 'bottom',
-                        closeButton: false,
-                        offset: {
-                            'bottom': [0, -10],
-                        }
-                    });
-                }
-                if (!e.object) {
-                    popup.remove();
-                    return;
-                }
-                popup.setHTML("all_flows： " + e.object.all_flows);
-                popup.setLngLat(map.unproject([e.x, e.y]));
-                popup.addTo(map);
-            }
-        };
-        var workPlace = new mapboxgl.supermap.DeckglLayer("scatter-plot", {
-            data: features,
-            props: pointsProps,
-            callback: {
+
+            var workPlace = new MapboxLayer({
+                id: 'my-workPlace',
+                type: ScatterplotLayer,
+                data: features,
+                opacity: 0.3,
+                radiusMinPixels: 0.8,
+                autoHighlight: true,
+                highlightColor: [255, 255, 0, 255],
+                onHover: function (e) {
+                    if (!popup) {
+                        popup = new mapboxgl.Popup({
+                            anchor: 'bottom',
+                            closeButton: false,
+                            offset: {
+                                'bottom': [0, -10],
+                            }
+                        });
+                    }
+                    if (!e.object) {
+                        popup.remove();
+                        return;
+                    }
+                    popup.setHTML("all_flows： " + e.object.all_flows);
+                    popup.setLngLat(map.unproject([e.x, e.y]));
+                    popup.addTo(map);
+                },
                 getPosition: function (feature) {
                     if (!feature.workplace_lng || !feature.workplace_lat) {
                         console.log(feature);
@@ -217,13 +195,35 @@
                 },
                 getColor: d => [255, 255, 255, 110],
                 getRadius: d => 10,
-            }
-        });
-        map.addLayer(workPlace);
-        var homePlace = new mapboxgl.supermap.DeckglLayer("scatter-plot", {
-            data: features,
-            props: pointsProps,
-            callback: {
+            });
+
+            map.addLayer(workPlace);
+            var homePlace = new MapboxLayer({
+                id: 'my-homePlace',
+                type: ScatterplotLayer,
+                data: features,
+                opacity: 0.3,
+                radiusMinPixels: 0.8,
+                autoHighlight: true,
+                highlightColor: [255, 255, 0, 255],
+                onHover: function (e) {
+                    if (!popup) {
+                        popup = new mapboxgl.Popup({
+                            anchor: 'bottom',
+                            closeButton: false,
+                            offset: {
+                                'bottom': [0, -10],
+                            }
+                        });
+                    }
+                    if (!e.object) {
+                        popup.remove();
+                        return;
+                    }
+                    popup.setHTML("all_flows： " + e.object.all_flows);
+                    popup.setLngLat(map.unproject([e.x, e.y]));
+                    popup.addTo(map);
+                },
                 getPosition: function (feature) {
                     if (!feature.residence_lat || !feature.residence_lng) {
                         console.log(feature);
@@ -233,11 +233,14 @@
                 },
                 getColor: d => [255, 255, 255, 110],
                 getRadius: d => 10,
-            }
-        });
-        map.addLayer(homePlace);
-    }
+            });
+            map.on('load', () => {
+                map.addLayer(homePlace);
+            });
+           
+        }
 
-</script>
+    </script>
 </body>
+
 </html>
