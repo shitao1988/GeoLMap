@@ -28,68 +28,15 @@
     <script>
         
 
-        var veclayer = new L.GeoWMTSLayer("http://t0.tianditu.cn/vec_c/wmts", {
-            id: "_baseLayerId",
-            layer: "vec",
-            subdomains: '01234567',
-            maxZoom: 18,
-            tileSize: 256,
-            continuousWorld: true,
-            minZoom: 0,
-            zoom: 8
+      var veclayer = new L.GeoTDTLayer.Vector();
+        var veclayer_c = new L.GeoTDTLayer.VectorAnno();
+        var map = new L.GeoMap('mapid', {
+            center: [0, 0],
+            zoom: 2,
+            basetileLayer:[]
         });
-
-        var veclayer_c = new L.GeoWMTSLayer("http://t0.tianditu.cn/cva_c/wmts", {
-            id: "_baseLayerId",
-            layer: "cva",
-            subdomains: '01234567',
-            maxZoom: 18,
-            tileSize: 256,
-            continuousWorld: true,
-            minZoom: 0,
-            zoom: 8
-        });
-
-        var wxveclayer = new L.GeoWMTSLayer("http://61.177.139.228:9000/gateway/WMTSServer/wuxi_newvector", {
-            id: "_wxbaseLayerId",
-            layer: "wxvec",
-            subdomains: '01234567',
-            maxZoom: 20,
-            tileSize: 256,
-            continuousWorld: true,
-            minZoom:18,
-            zoom: 8
-        });
-
-        var wxveclayer_c = new L.GeoWMTSLayer("http://61.177.139.228:9000/gateway/WMTSServer/wuxi_newvectoranno", {
-            id: "_wxbaseLayerId",
-            layer: "wxcva",
-            subdomains: '01234567',
-            maxZoom: 20,
-            tileSize: 256,
-            continuousWorld: true,
-            minZoom: 18,
-            zoom: 8
-        });
-
-        var vecGroup = L.layerGroup([veclayer, veclayer_c,wxveclayer,wxveclayer_c]);
-
-        this.map = new L.GeoMap('mapid', {
-            zoom: 1,
-            maxZoom: 21,
-            minZoom: 0,
-            continuousWorld: true,
-            worldCopyJump: false,
-            useDefault: false
-        });
-
-        var basemaps = {
-            "矢量": vecGroup
-        };
-        L.control.groupedLayers(basemaps).addTo(map);
-
-        map.addLayer(vecGroup);
-        map.setView([31.578140, 120.309906], 11);
+        map.addLayer(veclayer);
+        map.addLayer(veclayer_c);
     </script>
 </body>
 </html>

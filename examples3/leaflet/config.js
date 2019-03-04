@@ -6,7 +6,6 @@ var identification = {
     name: "Leaflet"
 };
 var exampleConfig = {
-
     "viz": {
         name: "可视化",
         name_en: "Visualization",
@@ -289,9 +288,23 @@ var exampleConfig = {
         }
     },
     "clientSpatialAnalyst": {
-        name: "客户端分析",
+        name: "查询分析",
         name_en: "Client spatial analysis",
         content: {
+            "Search":{
+                name: "查询",
+                content: [{
+                    name: "关键字查询",
+                    name_en: "key search",
+                    thumbnail: "l_interpolationAnalysis.png",
+                    fileName: "search_key"
+                }, {
+                    name: "坐标查询",
+                    name_en: "location search",
+                    thumbnail: "l_classificationAnalysis.png",
+                    fileName: "search_location"
+                }]
+            },
             "Turf": {
                 name: "Turf",
                 content: [{
@@ -463,10 +476,15 @@ var exampleConfig = {
                 name: "天地图",
                 name_en: "Tianditu",
                 content: [{
-                    name: "天地图-墨卡托",
+                    name: "天地图",
+                    name_en: "tianditu",
+                    thumbnail: "tianditu.png",
+                    fileName: "basemap-tdt"
+                },{
+                    name: "天地图-矢量影像切换",
                     name_en: "tianditu-mercator",
                     thumbnail: "l_tiandituLayer_mercator.png",
-                    fileName: "basemap-tdt"
+                    fileName: "basemap-tdt-image"
                 }]
             },
         }

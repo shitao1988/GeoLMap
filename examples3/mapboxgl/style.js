@@ -22,12 +22,12 @@ var tdtbase = {
         }
     },
     "layers": [
-        // {
-        //     "id": "1",
-        //     "type": "raster",
-        //     "source": "geostar1",
-        //     "raster-opacity": 1
-        // },
+        {
+            "id": "1",
+            "type": "raster",
+            "source": "geostar1",
+            "raster-opacity": 1
+        },
          {
             "id": "2",
             "type": "raster",
