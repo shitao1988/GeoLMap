@@ -296,12 +296,12 @@ var exampleConfig = {
                 content: [{
                     name: "关键字查询",
                     name_en: "key search",
-                    thumbnail: "l_interpolationAnalysis.png",
+                    thumbnail: "search_key.png",
                     fileName: "search_key"
                 }, {
                     name: "坐标查询",
                     name_en: "location search",
-                    thumbnail: "l_classificationAnalysis.png",
+                    thumbnail: "search_location.png",
                     fileName: "search_location"
                 }]
             },
