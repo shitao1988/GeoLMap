@@ -305,6 +305,27 @@ var exampleConfig = {
                     fileName: "heatMapLayer"
                 }]
             },
+
+            "Symbolization": {
+                name: "符号化渲染",
+                name_en: "Symbolization Render",
+                version: "9.1.0",
+                content: [{
+                    name: "颜色分级",
+                    name_en: "",
+                    version: "9.1.0",
+                    thumbnail: "Symbolization_Render_Color.png",
+                    fileName: "Symbolization_Render_Color"
+                },{
+                    name: "符号化聚类",
+                    name_en: "",
+                    version: "9.1.0",
+                    thumbnail: "Symbolization_Render_cluster.png",
+                    fileName: "Symbolization_Render_cluster"
+                }]
+            },
+
+            
             "VectorTileLayer": {
                 name: "矢量瓦片",
                 name_en: "Vector tile",

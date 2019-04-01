@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title data-i18n="resources.title_navigationControl"></title>
+    <script type="text/javascript" src="../js/include-web.js"></script>
+</head>
+
+<body style=" margin: 0;overflow: hidden;background: #fff;width: 100%;height:100%;position: absolute;top: 0;">
+    <div id="map" style="margin:0 auto;width: 100%;height: 100%"></div>
+    <div id='state-legend' class='legend'>
+        <h4>Population</h4>
+        <div><span style='background-color: #723122'></span>25,000,000</div>
+        <div><span style='background-color: #8B4225'></span>10,000,000</div>
+        <div><span style='background-color: #A25626'></span>7,500,000</div>
+        <div><span style='background-color: #B86B25'></span>5,000,000</div>
+        <div><span style='background-color: #CA8323'></span>2,500,000</div>
+        <div><span style='background-color: #DA9C20'></span>1,000,000</div>
+        <div><span style='background-color: #E6B71E'></span>750,000</div>
+        <div><span style='background-color: #EED322'></span>500,000</div>
+        <div><span style='background-color: #F2F12D'></span>0</div>
+    </div>
+    <script src='../../dist/mapbox/mapbox-gl-dev53.js'></script>
+    <script src="style.js"></script>
+    <script src="js/data.js"></script>
+    <link href='../../dist/mapbox/mapbox-gl.css' rel='stylesheet' />
+    <style>
+    /* 符号化渲染图层样式*/
+.legend {
+    background-color: #fff;
+    border-radius: 3px;
+    bottom: 30px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    padding: 10px;
+    position: absolute;
+    right: 10px;
+    z-index: 1000;
+}
+
+.legend h4 {
+    margin: 0 0 10px;
+}
+
+.legend div span {
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    margin-right: 5px;
+    width: 10px;
+}
+    </style>
+    <script type="text/javascript">
+        var mapCRS = {
+            topTileExtent: [-180, -270, 180, 90],
+            coordtransform: "none"
+        };
+
+
+        var map = new mapboxgl.FreeCRSMap({
+            style: tdtbase,
+            container: 'map',
+            mapCRS: mapCRS,
+            zoom: 4,
+            center: [-89.59940914585667, 48.01027395282483],
+            isAttributionControl: false
+        });
+
+        //mapbox导航及放大缩小控件
+        map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+        map.on('load', function () {
+
+            map.addSource('population', {
+                'type': 'geojson',
+                'data': testgrid
+            });
+            map.addLayer({
+                'id': 'state-population',
+                'source': 'population',
+                'maxzoom': 20,
+                'type': 'fill',
+                'filter': ['==', 'isState', "true"],
+                'paint': {
+                    'fill-color': {
+                        property: 'population',
+                        stops: [
+                            [0, '#F2F12D'],
+                            [500000, '#EED322'],
+                            [750000, '#E6B71E'],
+                            [1000000, '#DA9C20'],
+                            [2500000, '#CA8323'],
+                            [5000000, '#B86B25'],
+                            [7500000, '#A25626'],
+                            [10000000, '#8B4225'],
+                            [25000000, '#723122']
+                        ]
+                    },
+                    'fill-opacity': 0.75
+                }
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

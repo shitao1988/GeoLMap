@@ -35992,9 +35992,9 @@
                     Math.round(this.options.extent * (c.x * z2 - x)),
                     Math.round(this.options.extent * (c.y * z2 - y))
                 ]],
-                tags: c.numPoints ? getClusterProperties(c) : this.points[c.index].properties
+                tags: c.numPoints ? getClusterProperties(c) : this.points[c.id].properties
             };
-            var id = c.numPoints ? c.id : this.points[c.index].id;
+            var id = c.numPoints ? c.id : this.points[c.id].id;
             if (id !== undefined) {
                 f.id = id;
             }
@@ -36087,7 +36087,7 @@
     }
     
     function createPointCluster(p, id) {
-        var ref = p.geometry.coordinates;
+        var coords = p.geometry.coordinates;
 //free
         if (typeof customprojection === 'function') {
             var pointxy = customprojection(coords);

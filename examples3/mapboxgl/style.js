@@ -1,7 +1,7 @@
 var tdtbase = {
     "version": 8,
-    "sprite": "http://127.0.0.1:5500/sprites/sprite",
-    "glyphs": "http://127.0.0.1:5500/glyphs/{fontstack}/{range}.pbf",
+    "sprite": "http://127.0.0.1:5500/dist/mapbox/sprites/sprite",
+    "glyphs": "http://127.0.0.1:5500/dist/mapbox/glyphs/{fontstack}/{range}.pbf",
     "sources": {
         "deck": {
             "type": "geojson",
@@ -38,8 +38,8 @@ var tdtbase = {
 
 var tdtbase2 = {
     "version": 8,
-    "sprite": "http://127.0.0.1:5500/sprites/sprite",
-    "glyphs": "http://127.0.0.1:5500/glyphs/{fontstack}/{range}.pbf",
+    "sprite": "http://127.0.0.1:5500/dist/mapbox/sprites/sprite",
+    "glyphs": "http://127.0.0.1:5500/dist/mapbox/glyphs/{fontstack}/{range}.pbf",
     "sources": {
         "deck": {
             "type": "geojson",
