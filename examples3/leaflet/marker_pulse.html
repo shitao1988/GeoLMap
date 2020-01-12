@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>集聚示例</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../dist/GeoLMap.min.js"></script>
+    <link href="../../dist/GeoLMap.min.css" rel="stylesheet" />
+    <link href="res/example.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="mapid"></div>
+   
+    <script type="text/javascript">
+        var map = new L.GeoMap('mapid', {
+            zoom: 13
+        });
+        map.setView([31.578140, 120.309906], 11);
+
+        var markers =L.featureGroup();
+
+        function populate() {
+            for (var i = 0; i < 10; i++) {
+                var m = new L.Marker(getRandomLatLng(map));
+                var pulsingIcon = L.icon.pulse({iconSize:[14,14],color:'#2f8'});
+                markers.addLayer(L.marker(getRandomLatLng(map),{icon: pulsingIcon,title: '闪烁点'}));
+            }
+            return false;
+        }
+
+
+        function getRandomLatLng(map) {
+            var bounds = map.getBounds(),
+                southWest = bounds.getSouthWest(),
+                northEast = bounds.getNorthEast(),
+                lngSpan = northEast.lng - southWest.lng,
+                latSpan = northEast.lat - southWest.lat;
+
+            return new L.LatLng(
+                southWest.lat + latSpan * Math.random(),
+                southWest.lng + lngSpan * Math.random());
+        }
+        populate();
+        map.addLayer(markers);
+    </script>
+</body>
+</html>

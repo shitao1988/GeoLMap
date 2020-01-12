@@ -16,9 +16,14 @@
     <sourcefile path="..\src\Control\Leaflet.draw\leaflet.draw-src@0.4.9.js" />
     <sourcefile path="..\src\Control\leaflet.groupedlayercontrol.js" />
     <sourcefile path="..\src\Control\Leaflet.Control.Custom.js" />
+    <sourcefile path="..\src\control\leaflet-sidebar.js" />
+    <sourcefile path="..\src\control\Control.Coordinates.js" />
+    <sourcefile path="..\src\control\L.Control.Search.js" />
+    <sourcefile path="..\src\control\L.Icon.Pulse.js" />
     <sourcefile path="..\src\layer\WMTSLayer.js" />
     <sourcefile path="..\src\layer\leaflet.heat@0.2.0.js" />
     <sourcefile path="..\src\layer\leaflet.migrationLayer-src.js" />
+    <sourcefile path="..\src\control\choropleth.js" />
     <sourcefile path="..\src\Query\Ajax.js" />
     <sourcefile path="..\src\local.zh-cn.js" />
     <sourcefile path="..\src\Geomap.js" />

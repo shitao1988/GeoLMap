@@ -12453,7 +12453,7 @@ L.Control.Zoom = L.Control.extend({
 	// @section
 	// @aka Control.Zoom options
 	options: {
-		position: 'topleft',
+		position: 'topright',
 
 		// @option zoomInText: String = '+'
 		// The text set on the 'zoom in' button.
@@ -12686,7 +12686,7 @@ L.Control.Attribution = L.Control.extend({
 // @option attributionControl: Boolean = true
 // Whether a [attribution control](#control-attribution) is added to the map by default.
 L.Map.mergeOptions({
-	attributionControl: true
+	attributionControl: false
 });
 
 L.Map.addInitHook(function () {
@@ -12701,6 +12701,10 @@ L.Map.addInitHook(function () {
 L.control.attribution = function (options) {
 	return new L.Control.Attribution(options);
 };
+
+
+
+
 
 
 

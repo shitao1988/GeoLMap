@@ -53,6 +53,9 @@ L.GeoWMTSLayer = L.TileLayer.extend({
 L.geowmtslayer = function (url, options) {
     return new L.GeoWMTSLayer(url, options);
 };
+
+
+
 /**
  * [initialize description]
  * @param  {[type]} url                     [description]
@@ -84,6 +87,9 @@ L.GeoTDTLayer = L.GeoWMTSLayer.extend({
         L.setOptions(this, options);
     }
 });
+
+
+
 L.GeoTDTLayer.Vector = L.GeoTDTLayer.extend({
     urlArray: ["http://t0.tianditu.gov.cn/vec_c/wmts", "http://t1.tianditu.gov.cn/vec_c/wmts", "http://t2.tianditu.gov.cn/vec_c/wmts", "http://t3.tianditu.gov.cn/vec_c/wmts"],
     tdtOptions: {

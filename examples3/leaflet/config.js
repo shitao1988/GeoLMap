@@ -27,7 +27,7 @@ var exampleConfig = {
                     name: "闪烁点",
                     name_en: "flashing points",
                     thumbnail: "l_pulse.gif",
-                    fileName: "12_pulse"
+                    fileName: "marker_pulse"
                 }]
             },
             "cluster": {
@@ -85,27 +85,7 @@ var exampleConfig = {
                         name_en: "line effect",
                         thumbnail: "l_echartsLinesEffect.gif",
                         fileName: "echartsLinesEffect"
-                    }, {
-                        name: "折线图",
-                        name_en: "line chart",
-                        thumbnail: "l_echartsLineMarker.png",
-                        fileName: "echartsLineMarker"
-                    }, {
-                        name: "柱状图",
-                        name_en: "bar chart",
-                        thumbnail: "l_echartsBar.png",
-                        fileName: "echartsBar"
-                    }, {
-                        name: "散点图",
-                        name_en: "scatter chart",
-                        thumbnail: "l_echartsScatter.png",
-                        fileName: "echartsScatter"
-                    }, {
-                        name: "饼图",
-                        name_en: "pie chart",
-                        thumbnail: "l_echartsPie.png",
-                        fileName: "echartsPie"
-                    }, {
+                    },  {
                         name: "世界飞机航线图",
                         name_en: "Airplane route map",
                         thumbnail: "l_echartsLinesAirline.png",
@@ -204,26 +184,6 @@ var exampleConfig = {
                     fileName: "mapvLianjiaData"
                 }]
             },
-            "D3": {
-                name: "D3",
-                name_en: "D3",
-                content: [{
-                    name: "单值专题图",
-                    name_en: "unique thematic layer",
-                    thumbnail: "l_d3UniqueThemeLayer.png",
-                    fileName: "d3UniqueThemeLayer"
-                }, {
-                    name: "分段专题图",
-                    name_en: "range thematic layer",
-                    thumbnail: "l_d3RangeThemeLayer.png",
-                    fileName: "d3RangeThemeLayer"
-                }, {
-                    name: "蜂巢图",
-                    name_en: "honeycomb layer",
-                    thumbnail: "l_d3HexbinLayer.png",
-                    fileName: "d3HexbinLayer"
-                }]
-            },
             "extrusion": {
                 name: "OSMBuildings",
                 name_en: "OSMBuildings",
@@ -304,35 +264,6 @@ var exampleConfig = {
                     thumbnail: "search_location.png",
                     fileName: "search_location"
                 }]
-            },
-            "Turf": {
-                name: "Turf",
-                content: [{
-                    name: "插值分析",
-                    name_en: "interpolation analysis",
-                    thumbnail: "l_interpolationAnalysis.png",
-                    fileName: "turf_interpolationAnalysis"
-                }, {
-                    name: "分类分析",
-                    name_en: "classification analysis",
-                    thumbnail: "l_classificationAnalysis.png",
-                    fileName: "turf_classificationAnalysis"
-                }, {
-                    name: "格网分析",
-                    name_en: "grid analysis",
-                    thumbnail: "l_gridAnalysis.png",
-                    fileName: "turf_gridAnalysis"
-                }, {
-                    name: "测量计算",
-                    name_en: "measurement",
-                    thumbnail: "l_turf_measurement.png",
-                    fileName: "turf_measurement"
-                }, {
-                    name: "面合并",
-                    name_en: "union",
-                    thumbnail: "l_turf_union.png",
-                    fileName: "turf_union"
-                }]
             }
         }
     },
@@ -358,6 +289,11 @@ var exampleConfig = {
                     name_en: "zoom control",
                     thumbnail: "l_controler_zoom.png",
                     fileName: "controler_zoom"
+                }, {
+                    name: "资源目录控件",
+                    name_en: "res control",
+                    thumbnail: "l_controler_res.png",
+                    fileName: "controler_res"
                 }, {
                     name: "比例尺控件",
                     name_en: "scaleline control",

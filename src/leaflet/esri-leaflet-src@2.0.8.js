@@ -2494,7 +2494,10 @@
                     this._renderImage(response.href, bounds);
                 }, this);
             } else {
-                params.f = 'image';
+                params.f='image';
+                if(params.bboxSR==2437){
+                    params.imageSR=params.bboxSR='{"wkt":"PROJCS[\"WX\",GEOGCS[\"GCS_Beijing_1954\",DATUM[\"D_Beijing_1954\",SPHEROID[\"Krasovsky_1940\",6378245.0,298.3]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Gauss_Kruger\"],PARAMETER[\"False_Easting\",50000.0],PARAMETER[\"False_Northing\",-3450000.0],PARAMETER[\"Central_Meridian\",120.0],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]"}'
+                }
                 this._renderImage(this.options.url + 'exportImage' + L$1.Util.getParamString(params), bounds);
             }
         }
@@ -2686,6 +2689,9 @@
                 }, this);
             } else {
                 params.f = 'image';
+                if(params.bboxSR==2437){
+                    params.imageSR=params.bboxSR='{"wkt":"PROJCS[\"WX\",GEOGCS[\"GCS_Beijing_1954\",DATUM[\"D_Beijing_1954\",SPHEROID[\"Krasovsky_1940\",6378245.0,298.3]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Gauss_Kruger\"],PARAMETER[\"False_Easting\",50000.0],PARAMETER[\"False_Northing\",-3450000.0],PARAMETER[\"Central_Meridian\",120.0],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]"}'
+                }
                 this._renderImage(this.options.url + 'export' + L$1.Util.getParamString(params), bounds);
             }
         }
