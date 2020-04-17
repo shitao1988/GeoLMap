@@ -36425,6 +36425,7 @@
             var p = [0, y, 0]
             return customprojection(p)[1];
         }
+        
         var sin = Math.sin(y * Math.PI / 180);
         var y2 = 0.5 - 0.25 * Math.log((1 + sin) / (1 - sin)) / Math.PI;
         return y2 < 0 ? 0 : y2 > 1 ? 1 : y2;

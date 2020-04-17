@@ -97,12 +97,14 @@ L.GeoTDTLayer = L.GeoWMTSLayer.extend({
   }
 });
 
+
+
 L.GeoTDTLayer.Vector = L.GeoTDTLayer.extend({
   urlArray: [
-    "http://t0.tianditu.gov.cn/vec_c/wmts",
-    "http://t1.tianditu.gov.cn/vec_c/wmts",
-    "http://t2.tianditu.gov.cn/vec_c/wmts",
-    "http://t3.tianditu.gov.cn/vec_c/wmts"
+    "http://2.20.101.190:9001/vec_c/wmts",
+    "http://2.20.101.190:9001/vec_c/wmts",
+    "http://2.20.101.190:9001/vec_c/wmts",
+    "http://2.20.101.190:9001/vec_c/wmts"
   ],
   tdtOptions: {
     layer: "vec",
@@ -115,10 +117,10 @@ L.GeoTDTLayer.Vector = L.GeoTDTLayer.extend({
 });
 L.GeoTDTLayer.VectorAnno = L.GeoTDTLayer.extend({
   urlArray: [
-    "http://t0.tianditu.gov.cn/cva_c/wmts",
-    "http://t1.tianditu.gov.cn/cva_c/wmts",
-    "http://t2.tianditu.gov.cn/cva_c/wmts",
-    "http://t3.tianditu.gov.cn/cva_c/wmts"
+    "http://2.20.101.190:9001/cva_c/wmts",
+    "http://2.20.101.190:9001/cva_c/wmts",
+    "http://2.20.101.190:9001/cva_c/wmts",
+    "http://2.20.101.190:9001/cva_c/wmts"
   ],
   tdtOptions: {
     layer: "cva",
@@ -131,10 +133,10 @@ L.GeoTDTLayer.VectorAnno = L.GeoTDTLayer.extend({
 });
 L.GeoTDTLayer.Raster = L.GeoTDTLayer.extend({
   urlArray: [
-    "http://t0.tianditu.gov.cn/img_c/wmts",
-    "http://t1.tianditu.gov.cn/img_c/wmts",
-    "http://t2.tianditu.gov.cn/img_c/wmts",
-    "http://t3.tianditu.gov.cn/img_c/wmts"
+    "http://2.20.101.190:9001/img_c/wmts",
+      "http://2.20.101.190:9001/img_c/wmts",
+      "http://2.20.101.190:9001/img_c/wmts",
+      "http://2.20.101.190:9001/img_c/wmts"
   ],
   tdtOptions: {
     layer: "img",
@@ -147,10 +149,10 @@ L.GeoTDTLayer.Raster = L.GeoTDTLayer.extend({
 });
 L.GeoTDTLayer.RasterAnno = L.GeoTDTLayer.extend({
   urlArray: [
-    "http://t0.tianditu.gov.cn/cia_c/wmts",
-    "http://t1.tianditu.gov.cn/cia_c/wmts",
-    "http://t2.tianditu.gov.cn/cia_c/wmts",
-    "http://t3.tianditu.gov.cn/cia_c/wmts"
+    "http://2.20.101.190:9001/cia_c/wmts",
+    "http://2.20.101.190:9001/cia_c/wmts",
+      "http://2.20.101.190:9001/cia_c/wmts",
+      "http://2.20.101.190:9001/cia_c/wmts"
   ],
   tdtOptions: {
     layer: "cia",
